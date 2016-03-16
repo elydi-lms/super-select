@@ -250,7 +250,7 @@ var SuperSelect = React.createClass({
     handleNavigationKeys: function (e) {
         "use strict";
 
-        var currentPosition = this.state.pseudoHover;
+        var currentPosition = this.state.pseudoHover || 0;
         var isEnter = e.key === "Enter";
 
         if (isEnter && !isNaN(currentPosition)) {
