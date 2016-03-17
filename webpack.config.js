@@ -1,3 +1,5 @@
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 module.exports = {
     entry: "./index.js",
     output: {
@@ -21,7 +23,14 @@ module.exports = {
             }
         }, {
             test: /\.scss$/,
-            loaders: ["style", "css", "sass"]
+            // loaders: ["style", "css?sourceMap", "sass?sourceMap"],
+            loader: ExtractTextPlugin.extract(
+                "style",
+                "css!sass"
+            )
         }]
-    }
+    },
+    plugins: [
+        new ExtractTextPlugin("SuperSelect.css")
+    ]
 };
