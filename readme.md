@@ -7,9 +7,9 @@ A replacement for `select` (?) on web applications.
 http://jsbin.com/talabi/latest/edit?js,output
 
 ## Basics
-Clone, install deps, start webpack dev server:
+Clone, install deps, start browser-sync server
 
-> You need webpack installed to work. And webpack-dev-server for the dev script
+> You need webpack installed to work and browser-sync to dev task
 
 ```
 git clone https://github.com/Cohros/super-select.git
@@ -17,7 +17,7 @@ cd super-select
 npm install
 npm run dev
 
-// access http://localhost:8080/example.html
+// access http://localhost:3000/example.html
 ```
 
 ## API
@@ -39,3 +39,7 @@ npm run dev
 #### [x] value
 #### [x] valueKey
 #### [x] valueLink
+
+
+
+> Written with [StackEdit](https://stackedit.io/).
