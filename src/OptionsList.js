@@ -1,6 +1,6 @@
 var React = require("react");
 
-var Option = require("./Option.jsx");
+var Option = require("./Option");
 
 var OptionsList = React.createClass({
     displayName: "SuperSelect.OptionsList",

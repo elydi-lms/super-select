@@ -6,10 +6,11 @@
     "select-multiple"
   ],
   "description": "",
-  "main": "index.js",
+  "main": "lib/SuperSelect.js",
   "scripts": {
+    "react": "babel --presets es2015,react src/ --out-dir lib/",
     "build": "gulp",
-    "prepublish": "npm run build",
+    "prepublish": "npm run react; npm run build",
     "watch": "webpack --progress --colors --watch",
     "dev": "webpack-dev-server --inline --hot"
   },

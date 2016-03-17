@@ -1,10 +1,10 @@
 var React = require("react");
 var Fuse = require("fuse.js");
 
-var Button = require("./Button.jsx");
-var OptionsList = require("./OptionsList.jsx");
-var Actions = require("./Actions.jsx");
-var SearchBox = require("./SearchBox.jsx");
+var Button = require("./Button");
+var OptionsList = require("./OptionsList");
+var Actions = require("./Actions");
+var SearchBox = require("./SearchBox");
 
 var SuperSelect = React.createClass({
     displayName: "SuperSelect",

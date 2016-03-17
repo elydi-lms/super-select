@@ -1,1 +1,1 @@
-module.exports = require("./src/SuperSelect.jsx");
+module.exports = require("./src/SuperSelect.js");

@@ -1,5 +1,5 @@
 var React = require("react");
-var Action = require("./Action.jsx");
+var Action = require("./Action");
 
 var Actions = React.createClass({
     displayName: "SuperSelect.Actions",
