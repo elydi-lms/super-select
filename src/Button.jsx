@@ -40,7 +40,11 @@ var Button = React.createClass({
         }
 
         return (
-            <span className="super-select-button-label">
+            <span
+                className="super-select-button-label"
+                id="label"
+                key="label-text"
+            >
                 { label }
             </span>
         );
@@ -55,18 +59,19 @@ var Button = React.createClass({
         var countValues = 0;
 
         text.push(this.getLabel());
+
         if (this.props.multiple && this.props.value.length) {
             text.push(": ");
 
             if (this.props.value.length === this.props.allOptions.length) {
                 text.push(
-                    <span className="super-select-button-label-value">
+                    <span className="super-select-button-label-value" key="all">
                         todos
                     </span>
                 );
             } else if (this.props.noLabels === true) {
                 text.push(
-                    <span className="super-select-button-label-value" key="all">
+                    <span className="super-select-button-label-value" key="allCount">
                         { this.props.value.length }
                     </span>
                 );
@@ -84,12 +89,18 @@ var Button = React.createClass({
 
                 if (self.props.maxLabels !== false && self.props.maxLabels < self.props.value.length) {
                     text.push(
-                        <span className="super-select-button-label-value" key={ -1 }>
+                        <span className="super-select-button-label-value" key="-1">
                             mais { self.props.value.length - self.props.maxLabels }
                         </span>
                     );
                 }
             }
+        } else if (!this.props.multiple && this.props.value[this.props.labelKey]) {
+            text.push(
+                <span className="super-select-button-label-value" key="selected">
+                    { this.props.value[this.props.labelKey] }
+                </span>
+            );
         }
 
         return (

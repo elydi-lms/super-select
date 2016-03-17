@@ -9,10 +9,6 @@ module.exports = {
         libraryTarget: "umd",
         publicPath: "/dist/"
     },
-    externals: {
-      "react": "React",
-      "react-dom": "ReactDOM"
-    },
     module: {
         loaders: [{
             test: /\.jsx?$/,

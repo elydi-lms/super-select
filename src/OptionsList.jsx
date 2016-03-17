@@ -25,7 +25,10 @@ var OptionsList = React.createClass({
         var options = this.props.options;
         if (!options.length) {
             return (
-                <li className="super-select-options-list-item not-found">
+                <li
+                    className="super-select-options-list-item not-found"
+                    key="not-found"
+                >
                     Nada encontrado :/
                 </li>
             );

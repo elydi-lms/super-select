@@ -33,10 +33,6 @@ gulp.task("webpack", function (callback) {
 		}));
 		callback();
     });
-    // return gulp.src("./index.js")
-    //     .pipe(webpack( require("./webpack.config.js")))
-    //     .on("error", errorHandler)
-    //     .pipe(gulp.dest("./dist"));
 });
 
 gulp.task("browsersync", function () {
@@ -93,7 +89,7 @@ gulp.task("css", ["sass"], function () {
 gulp.task("dev", ["css", "webpack", "browsersync"], function () {
     "use strict";
 
-    gulp.watch(["src/*.js", "src/js/*.jsx"], ["webpack"]);
+    gulp.watch(["src/*.js", "src/*.jsx"], ["webpack"]);
     gulp.watch("src/*.scss", ["css"]);
 });
 

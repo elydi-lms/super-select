@@ -22,7 +22,10 @@ var SuperSelect = React.createClass({
         groups: React.PropTypes.array,
         label: React.PropTypes.string.isRequired,
         labelKey: React.PropTypes.string,
-        maxLabels: React.PropTypes.number,
+        maxLabels: React.PropTypes.oneOfType([
+            React.PropTypes.number,
+            React.PropTypes.bool
+        ]),
         multiple: React.PropTypes.bool,
         noLabels: React.PropTypes.bool,
         onChange: React.PropTypes.func,
@@ -32,9 +35,14 @@ var SuperSelect = React.createClass({
         searchKeys: React.PropTypes.arrayOf(
             React.PropTypes.string
         ),
-        value: React.PropTypes.object,
+        value: React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.arrayOf(
+                React.PropTypes.object
+            )
+        ]),
         valueKey: React.PropTypes.string,
-        valueLink: React.PropTypes.func
+        valueLink: React.PropTypes.object
     },
 
     getDefaultProps: function () {
@@ -42,23 +50,14 @@ var SuperSelect = React.createClass({
 
         return {
             actions: [],
-            content: null,
-            contentLabelProvider: null,
-            groups: [],
-            label: "",
             labelKey: "name",
             maxLabels: false,
             multiple: true,
             noLabels: false,
-            onChange: null,
             options: [],
-            optionRender: null,
             searchBox: true,
             searchKeys: ["name"],
-            value: null,
             valueKey: "id",
-            valueLink: false,
-
             // html attrs
             tabIndex: 0
         };
@@ -309,6 +308,7 @@ var SuperSelect = React.createClass({
                 labelKey={ this.props.labelKey }
                 actions={ this.props.actions }
                 multiple={ this.props.multiple }
+                key="options-list"
             />
         );
     },
@@ -321,6 +321,7 @@ var SuperSelect = React.createClass({
                 searchArgument={ this.state.q }
                 searchArgumentChange={ this.handleChangeQ }
                 searchKeys={ this.props.searchKeys }
+                key="search-box"
             />
         );
     },
@@ -329,7 +330,7 @@ var SuperSelect = React.createClass({
         "use strict";
 
         var actions = [];
-        if (this.props.options.length) {
+        if (this.props.options.length && this.props.multiple === true) {
             actions.push({
                 label: "Selecionar todos",
                 handler: this.selectAll,
@@ -343,7 +344,7 @@ var SuperSelect = React.createClass({
         }
         actions = actions.concat(this.props.actions);
 
-        return <Actions actions={ actions } />;
+        return <Actions actions={ actions } key="actions" />;
     },
 
     buildContent: function () {
@@ -371,7 +372,9 @@ var SuperSelect = React.createClass({
         "use strict";
 
         return (
-            <div className="super-select-container" ref="container"
+            <div
+                className="super-select-container"
+                ref="container"
                 onKeyDown={ this.handleNavigationKeys }
                 tabIndex={ this.props.tabIndex }
             >

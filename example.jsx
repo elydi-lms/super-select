@@ -38,6 +38,7 @@ var Application = React.createClass({
                         State: { JSON.stringify(this.state.selecteds) }
                     </div>
                 </div>
+
                 <div className="demo">
                     <h3>Multiple with option render</h3>
                     <div className="component">
@@ -47,7 +48,9 @@ var Application = React.createClass({
                             value={ this.state.selecteds }
                             optionRender={ function (config) {
                                 return (
-                                    <li onClick={ config.onChange.bind(null, config.option) }>
+                                    <li onClick={ config.onChange.bind(null, config.option) }
+                                        key={ config.index }
+                                    >
                                         Option: { config.option.name }
                                         | index: { config.index }
                                         | pseudoHover: { config.pseudoHover ? " sim" : " não" }
