@@ -7,7 +7,7 @@
 		exports["SuperSelect"] = factory(require("React"));
 	else
 		root["SuperSelect"] = factory(root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_6__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -56,31 +56,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var css = __webpack_require__(1); // @todo just for the webpack-dev-server
-	module.exports = __webpack_require__(5);
+	module.exports = __webpack_require__(1);
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var React = __webpack_require__(6);
-	var Fuse = __webpack_require__(7);
+	var React = __webpack_require__(2);
+	var Fuse = __webpack_require__(3);
 
-	var Button = __webpack_require__(8);
-	var OptionsList = __webpack_require__(9);
-	var Actions = __webpack_require__(11);
-	var SearchBox = __webpack_require__(13);
+	var Button = __webpack_require__(4);
+	var OptionsList = __webpack_require__(5);
+	var Actions = __webpack_require__(7);
+	var SearchBox = __webpack_require__(9);
 
 	var SuperSelect = React.createClass({
 	    displayName: "SuperSelect",
@@ -451,13 +441,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = SuperSelect;
 
 /***/ },
-/* 6 */
+/* 2 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_6__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ },
-/* 7 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -964,12 +954,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var React = __webpack_require__(6);
+	var React = __webpack_require__(2);
 
 	/**
 	 * @todo support max display items
@@ -1078,16 +1068,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Button;
 
 /***/ },
-/* 9 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var React = __webpack_require__(6);
+	var React = __webpack_require__(2);
 
-	var Option = __webpack_require__(10);
+	var Option = __webpack_require__(6);
 
 	var OptionsList = React.createClass({
 	    displayName: "SuperSelect.OptionsList",
@@ -1155,12 +1145,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = OptionsList;
 
 /***/ },
-/* 10 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var React = __webpack_require__(6);
+	var React = __webpack_require__(2);
 
 	var Option = React.createClass({
 	    displayName: "SuperSelect.Option",
@@ -1215,15 +1205,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Option;
 
 /***/ },
-/* 11 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var React = __webpack_require__(6);
-	var Action = __webpack_require__(12);
+	var React = __webpack_require__(2);
+	var Action = __webpack_require__(8);
 
 	var Actions = React.createClass({
 	    displayName: "SuperSelect.Actions",
@@ -1256,12 +1246,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Actions;
 
 /***/ },
-/* 12 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var React = __webpack_require__(6);
+	var React = __webpack_require__(2);
 
 	var Action = React.createClass({
 	    displayName: "SuperSelect.Action",
@@ -1312,12 +1302,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Action;
 
 /***/ },
-/* 13 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var React = __webpack_require__(6);
+	var React = __webpack_require__(2);
 
 	var SearchBox = React.createClass({
 	    displayName: "SuperSelect.SearchBox",

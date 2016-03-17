@@ -33,12 +33,12 @@
     background: #fefefe; }
   .super-select-button:after {
     font-family: 'Glyphicons Halflings';
-    content: "\E252";
+    content: "\e252";
     opacity: .4;
     font-size: 11px;
     margin-left: 5px; }
   .super-select-button.open:after {
-    content: "\E253"; }
+    content: "\e253"; }
 
 .super-select-button-label-value {
   font-weight: bold;
