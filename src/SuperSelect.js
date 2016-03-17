@@ -1,10 +1,10 @@
 var React = require("react");
 var Fuse = require("fuse.js");
 
-var Button = require("./Button.jsx");
-var OptionsList = require("./OptionsList.jsx");
-var Actions = require("./Actions.jsx");
-var SearchBox = require("./SearchBox.jsx");
+var Button = require("./Button");
+var OptionsList = require("./OptionsList");
+var Actions = require("./Actions");
+var SearchBox = require("./SearchBox");
 
 var SuperSelect = React.createClass({
     displayName: "SuperSelect",
@@ -22,7 +22,10 @@ var SuperSelect = React.createClass({
         groups: React.PropTypes.array,
         label: React.PropTypes.string.isRequired,
         labelKey: React.PropTypes.string,
-        maxLabels: React.PropTypes.number,
+        maxLabels: React.PropTypes.oneOfType([
+            React.PropTypes.number,
+            React.PropTypes.bool
+        ]),
         multiple: React.PropTypes.bool,
         noLabels: React.PropTypes.bool,
         onChange: React.PropTypes.func,
@@ -32,9 +35,14 @@ var SuperSelect = React.createClass({
         searchKeys: React.PropTypes.arrayOf(
             React.PropTypes.string
         ),
-        value: React.PropTypes.object,
+        value: React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.arrayOf(
+                React.PropTypes.object
+            )
+        ]),
         valueKey: React.PropTypes.string,
-        valueLink: React.PropTypes.func
+        valueLink: React.PropTypes.object
     },
 
     getDefaultProps: function () {
@@ -42,22 +50,16 @@ var SuperSelect = React.createClass({
 
         return {
             actions: [],
-            content: null,
-            contentLabelProvider: null,
-            groups: [],
-            label: "",
             labelKey: "name",
             maxLabels: false,
             multiple: true,
             noLabels: false,
-            onChange: null,
             options: [],
-            optionRender: null,
             searchBox: true,
             searchKeys: ["name"],
-            value: null,
             valueKey: "id",
-            valueLink: false
+            // html attrs
+            tabIndex: 0
         };
     },
 
@@ -88,6 +90,7 @@ var SuperSelect = React.createClass({
     addSuperSelectToEvent: function (e) {
         "use strict";
 
+        // @todo i'm not happy with this
         e.superSelect = this;
     },
 
@@ -148,6 +151,7 @@ var SuperSelect = React.createClass({
         return (
             <Button
                 label={ this.props.label }
+                contentLabelProvider={ this.props.contentLabelProvider }
                 open={ this.state.open }
                 value={ this.getValue() }
                 options={ this.getOptions() }
@@ -158,15 +162,18 @@ var SuperSelect = React.createClass({
                 toggle={ this.toggle }
                 maxLabels={ this.props.maxLabels }
                 noLabels={ this.props.noLabels }
+                tabIndex={ this.props.tabIndex }
+                handleFocus={ this.handleFocus }
             />
         );
     },
 
-    toggle: function () {
+    toggle: function (forceState) {
         "use strict";
 
+        var newState = typeof forceState === "boolean" ? forceState : !this.state.open;
         this.setState({
-            open: !this.state.open,
+            open: newState,
             pseudoHover: null
         });
     },
@@ -252,8 +259,10 @@ var SuperSelect = React.createClass({
 
         var currentPosition = this.state.pseudoHover || 0;
         var isEnter = e.key === "Enter";
+        var open = this.state.open;
+        var self = this;
 
-        if (isEnter && !isNaN(currentPosition)) {
+        if (isEnter && !isNaN(currentPosition) && open) {
             var option = this.getOptions()[currentPosition] || false;
             if (option) {
                 this.handleChange(option);
@@ -263,14 +272,25 @@ var SuperSelect = React.createClass({
         switch (e.key) {
             case "ArrowUp":
                 currentPosition = !currentPosition ? 0 : currentPosition - 1;
+                open = true;
                 break;
             case "ArrowDown":
                 currentPosition = currentPosition + 1 === this.getOptions().length ? currentPosition : currentPosition + 1;
+                open = true;
                 break;
         }
 
+        if (["Escape", "Tab"].indexOf(e.key) > -1) {
+            open = false;
+        }
+
         this.setState({
+            open: open,
             pseudoHover: currentPosition
+        }, function () {
+            if (open === false) {
+                self.refs.container.focus();
+            }
         });
     },
 
@@ -280,12 +300,15 @@ var SuperSelect = React.createClass({
         return (
             <OptionsList
                 options={ this.getOptions() }
+                optionRender={ this.props.optionRender }
                 handleNavigationKeys={ this.handleNavigationKeys }
                 isChecked={ this.isChecked }
                 handleChange={ this.handleChange }
                 currentHover={ this.state.pseudoHover }
                 labelKey={ this.props.labelKey }
                 actions={ this.props.actions }
+                multiple={ this.props.multiple }
+                key="options-list"
             />
         );
     },
@@ -298,6 +321,7 @@ var SuperSelect = React.createClass({
                 searchArgument={ this.state.q }
                 searchArgumentChange={ this.handleChangeQ }
                 searchKeys={ this.props.searchKeys }
+                key="search-box"
             />
         );
     },
@@ -306,7 +330,7 @@ var SuperSelect = React.createClass({
         "use strict";
 
         var actions = [];
-        if (this.props.options.length) {
+        if (this.props.options.length && this.props.multiple === true) {
             actions.push({
                 label: "Selecionar todos",
                 handler: this.selectAll,
@@ -320,7 +344,7 @@ var SuperSelect = React.createClass({
         }
         actions = actions.concat(this.props.actions);
 
-        return <Actions actions={ actions } />;
+        return <Actions actions={ actions } key="actions" />;
     },
 
     buildContent: function () {
@@ -348,8 +372,11 @@ var SuperSelect = React.createClass({
         "use strict";
 
         return (
-            <div className="super-select-container" ref="container"
-                onKeyUp={ this.handleNavigationKeys }
+            <div
+                className="super-select-container"
+                ref="container"
+                onKeyDown={ this.handleNavigationKeys }
+                tabIndex={ this.props.tabIndex }
             >
                 { this.buildbutton() }
                 { this.buildContent() }

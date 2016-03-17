@@ -4,6 +4,7 @@ var Application = React.createClass({
     getInitialState: function () {
         return {
             selecteds: [],
+            selected: {},
             options: [{
                 id: 1,
                 name: "Android"
@@ -20,18 +21,67 @@ var Application = React.createClass({
     render: function () {
         return (
             <div>
-                <div>
-                    <SuperSelect
-                        label="Filter by OS"
-                        options={ this.state.options }
-                        value={ this.state.selecteds }
-                        onChange={ function (newSelecteds) {
-                            this.setState({selecteds: newSelecteds});
-                        }.bind(this) }
-                    />
+                <div className="demo">
+                    <h3>Simple multiple</h3>
+                    <div className="component">
+                        <SuperSelect
+                            tabIndex={ 0 }
+                            label="Filter by OS"
+                            options={ this.state.options }
+                            value={ this.state.selecteds }
+                            onChange={ function (newSelecteds) {
+                                this.setState({selecteds: newSelecteds});
+                            }.bind(this) }
+                        />
+                    </div>
+                    <div className="state">
+                        State: { JSON.stringify(this.state.selecteds) }
+                    </div>
                 </div>
-                <div>
-                    State: { JSON.stringify(this.state.selecteds) }
+
+                <div className="demo">
+                    <h3>Multiple with option render</h3>
+                    <div className="component">
+                        <SuperSelect
+                            label="Filter by OS"
+                            options={ this.state.options }
+                            value={ this.state.selecteds }
+                            optionRender={ function (config) {
+                                return (
+                                    <li onClick={ config.onChange.bind(null, config.option) }
+                                        key={ config.index }
+                                    >
+                                        Option: { config.option.name }
+                                        | index: { config.index }
+                                        | pseudoHover: { config.pseudoHover ? " sim" : " não" }
+                                    </li>
+                                );
+                            } }
+                            onChange={ function (newSelecteds) {
+                                this.setState({selecteds: newSelecteds});
+                            }.bind(this) }
+                        />
+                    </div>
+                    <div className="state">
+                        State: { JSON.stringify(this.state.selecteds) }
+                    </div>
+                </div>
+                <div className="demo">
+                    <h3>Single</h3>
+                    <div className="component">
+                        <SuperSelect
+                            label="The best OS"
+                            options={ this.state.options }
+                            value={ this.state.selected }
+                            multiple={ false }
+                            onChange={ function (newSelected) {
+                                this.setState({selected: newSelected});
+                            }.bind(this) }
+                        />
+                    </div>
+                    <div className="state">
+                        State: { JSON.stringify(this.state.selected) }
+                    </div>
                 </div>
             </div>
         );

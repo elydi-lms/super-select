@@ -1,3 +1,5 @@
+// var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 module.exports = {
     entry: "./index.js",
     output: {
@@ -7,10 +9,6 @@ module.exports = {
         libraryTarget: "umd",
         publicPath: "/dist/"
     },
-    externals: {
-      "react": "React",
-      "react-dom": "ReactDOM"
-    },
     module: {
         loaders: [{
             test: /\.jsx?$/,
@@ -19,9 +17,6 @@ module.exports = {
             query: {
                 presets: ["react", "es2015"]
             }
-        }, {
-            test: /\.scss$/,
-            loaders: ["style", "css", "sass"]
         }]
     }
 };
