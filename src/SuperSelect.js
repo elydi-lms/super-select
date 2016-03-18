@@ -332,14 +332,12 @@ var SuperSelect = React.createClass({
         var actions = [];
         if (this.props.options.length && this.props.multiple === true) {
             actions.push({
-                label: "Selecionar todos",
-                handler: this.selectAll,
-                icon: "ok"
+                label: "✓ Selecionar todos",
+                handler: this.selectAll
             });
             actions.push({
-                label: "Limpar seleção",
-                handler: this.clean,
-                icon: "remove"
+                label: "✘ Limpar seleção",
+                handler: this.clean
             });
         }
         actions = actions.concat(this.props.actions);

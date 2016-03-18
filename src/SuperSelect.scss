@@ -6,6 +6,7 @@ $triangle-size: 5px;
 .super-select-container,
 .super-select-container * {
     box-sizing: border-box;
+    outline: none;
 }
 
 .super-select-container {
@@ -33,7 +34,7 @@ $triangle-size: 5px;
 
 .super-select-button {
     padding: 5px 7px;
-    border: 1px solid transparent;
+    border: 1px solid #e2e2e2;
     border-radius: 3px;
     cursor: pointer;
     display: inline-block;
@@ -46,15 +47,14 @@ $triangle-size: 5px;
     }
 
     &:after {
-        font-family: 'Glyphicons Halflings';
-        content: "\e252";
+        content: "▼";
         opacity: .4;
-        font-size: 11px;
+        font-size: 14px;
         margin-left: 5px;
     }
 
     &.open:after {
-        content: "\e253";
+        content: "▲";
     }
 }
 

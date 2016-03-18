@@ -11,7 +11,6 @@ var Action = React.createClass({
                 console.log("action clicked ;)");
             },
             label: "Action",
-            icon: null,
             content: null
         };
     },
@@ -21,21 +20,14 @@ var Action = React.createClass({
 
         return this.props.content || this.props.label;
     },
-
-    getIcon: function () {
-        "use strict";
-
-        return <span>noicon</span>;
-    },
-
     render: function () {
         "use strict";
 
         return (
-            <li className="super-select-action"
+            <li
+                className="super-select-action"
                 onClick={ this.props.handler }
             >
-                { this.getIcon() }
                 { this.getContent() }
             </li>
         );

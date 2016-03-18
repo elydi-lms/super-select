@@ -1,5 +1,3 @@
-// var ExtractTextPlugin = require("extract-text-webpack-plugin");
-
 module.exports = {
     entry: "./index.js",
     output: {
@@ -8,6 +6,10 @@ module.exports = {
         library: "SuperSelect",
         libraryTarget: "umd",
         publicPath: "/dist/"
+    },
+    externals: {
+        react: "React",
+        "react-dom": "ReactDOM"
     },
     module: {
         loaders: [{

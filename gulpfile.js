@@ -1,11 +1,9 @@
 var gulp = require("gulp");
-var source = require("vinyl-source-stream");
 var reactify = require("reactify");
 var notify = require("gulp-notify");
 var sass = require("gulp-sass");
 var cssShrink = require("gulp-cssshrink");
 var uglify = require("gulp-uglify");
-var buffer = require("vinyl-buffer");
 var browsersync = require("browser-sync").create();
 var rename = require("gulp-rename");
 var webpack = require("webpack");
@@ -24,6 +22,7 @@ var errorHandler = function (e) {
 gulp.task("webpack", function (callback) {
     "use strict";
 
+    //@todo not working right
     webpack(require("./webpack.config.js"), function (err, stats) {
         if (err) {
             throw new gutil.PluginError("webpack:build", err);
