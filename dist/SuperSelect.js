@@ -173,10 +173,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var options = this.props.options || [];
 	        var q = this.state.q;
 	        var fuse = new Fuse(options, {
-	            keys: this.props.searchKeys,
-	            threshold: 0.4
+	            keys: this.props.searchKeys
 	        });
 
+	        // threshold: 0.4
 	        if (!q.length) {
 	            return options;
 	        }
@@ -240,6 +240,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var found = false;
 	        var valueKey = this.props.valueKey;
 
+	        if (!value) {
+	            return false;
+	        }
+
 	        if (this.props.multiple) {
 	            found = value.filter(function (option, i) {
 	                if (item.id == option.id) {
@@ -283,6 +287,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (typeof this.props.onChange === "function") {
 	            this.props.onChange(newValue);
 	        }
+
+	        if (!this.props.multiple) {
+	            this.setState({ open: false });
+	        }
 	    },
 
 	    clean: function clean() {
@@ -312,7 +320,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var currentPosition = this.state.pseudoHover || 0;
 	        var isEnter = e.key === "Enter";
 	        var open = this.state.open;
+	        var mustRetainFocus = false;
 	        var self = this;
+	        var container = self.refs.container;
+
+	        if (isEnter) {
+	            e.preventDefault();
+	        }
 
 	        if (isEnter && !isNaN(currentPosition) && open) {
 	            var option = this.getOptions()[currentPosition] || false;
@@ -334,14 +348,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        if (["Escape", "Tab"].indexOf(e.key) > -1) {
 	            open = false;
+	            mustRetainFocus = true;
 	        }
 
 	        this.setState({
 	            open: open,
 	            pseudoHover: currentPosition
 	        }, function () {
-	            if (open === false) {
-	                self.refs.container.focus();
+	            if (mustRetainFocus) {
+	                container.focus();
 	            }
 	        });
 	    },
@@ -1011,51 +1026,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var className = this.getClassName();
 	        var text = [];
 	        var countValues = 0;
+	        var value = this.props.value;
 
 	        text.push(this.getLabel());
 
-	        if (this.props.multiple && this.props.value.length) {
-	            text.push(": ");
+	        // @todo improve this
+	        if (value && this.props.noLabels === false) {
+	            if (this.props.multiple && this.props.value.length) {
+	                text.push(": ");
 
-	            if (this.props.value.length === this.props.allOptions.length) {
-	                text.push(React.createElement(
-	                    "span",
-	                    { className: "super-select-button-label-value", key: "all" },
-	                    "todos"
-	                ));
-	            } else if (this.props.noLabels === true) {
-	                text.push(React.createElement(
-	                    "span",
-	                    { className: "super-select-button-label-value", key: "allCount" },
-	                    this.props.value.length
-	                ));
-	            } else {
-	                this.props.value.map(function (item, index) {
-	                    if (self.props.maxLabels === false || countValues < self.props.maxLabels) {
-	                        text.push(React.createElement(
-	                            "span",
-	                            { className: "super-select-button-label-value", key: index },
-	                            item[self.props.labelKey]
-	                        ));
-	                        countValues++;
-	                    }
-	                });
-
-	                if (self.props.maxLabels !== false && self.props.maxLabels < self.props.value.length) {
+	                if (this.props.value.length === this.props.allOptions.length) {
 	                    text.push(React.createElement(
 	                        "span",
-	                        { className: "super-select-button-label-value", key: "-1" },
-	                        "mais ",
-	                        self.props.value.length - self.props.maxLabels
+	                        { className: "super-select-button-label-value", key: "all" },
+	                        "todos"
 	                    ));
+	                } else if (this.props.noLabels === true) {
+	                    text.push(React.createElement(
+	                        "span",
+	                        { className: "super-select-button-label-value", key: "allCount" },
+	                        this.props.value.length
+	                    ));
+	                } else {
+	                    this.props.value.map(function (item, index) {
+	                        if (self.props.maxLabels === false || countValues < self.props.maxLabels) {
+	                            text.push(React.createElement(
+	                                "span",
+	                                { className: "super-select-button-label-value", key: index },
+	                                item[self.props.labelKey]
+	                            ));
+	                            countValues++;
+	                        }
+	                    });
+
+	                    if (self.props.maxLabels !== false && self.props.maxLabels < self.props.value.length) {
+	                        text.push(React.createElement(
+	                            "span",
+	                            { className: "super-select-button-label-value", key: "-1" },
+	                            "mais ",
+	                            self.props.value.length - self.props.maxLabels
+	                        ));
+	                    }
 	                }
+	            } else if (!this.props.multiple && this.props.value[this.props.labelKey]) {
+	                text.push(React.createElement(
+	                    "span",
+	                    { className: "super-select-button-label-value", key: "selected" },
+	                    this.props.value[this.props.labelKey]
+	                ));
 	            }
-	        } else if (!this.props.multiple && this.props.value[this.props.labelKey]) {
-	            text.push(React.createElement(
-	                "span",
-	                { className: "super-select-button-label-value", key: "selected" },
-	                this.props.value[this.props.labelKey]
-	            ));
 	        }
 
 	        return React.createElement(
@@ -1316,16 +1335,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	    },
 
-	    componentDidUpdate: function componentDidUpdate() {
+	    componentDidMount: function componentDidMount() {
 	        "use strict";
 
 	        this.refs.q.focus();
 	    },
 
-	    componentDidMount: function componentDidMount() {
+	    handleKeyPress: function handleKeyPress(e) {
 	        "use strict";
 
-	        this.refs.q.focus();
+	        if (["ArrowUp", "ArrowDown"].indexOf(e.key) > -1) {
+	            e.preventDefault();
+	        }
 	    },
 
 	    render: function render() {
@@ -1339,6 +1360,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                type: "search",
 	                value: this.props.searchArgument,
 	                onChange: this.props.searchArgumentChange,
+	                onKeyDown: this.handleKeyPress,
 	                placeholder: "Digite para filtrar opção...",
 	                ref: "q"
 	            })

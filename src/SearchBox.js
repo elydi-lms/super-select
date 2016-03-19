@@ -12,16 +12,18 @@ var SearchBox = React.createClass({
         };
     },
 
-    componentDidUpdate: function () {
+    componentDidMount: function () {
         "use strict";
 
         this.refs.q.focus();
     },
 
-    componentDidMount: function () {
+    handleKeyPress: function (e) {
         "use strict";
 
-        this.refs.q.focus();
+        if (["ArrowUp", "ArrowDown"].indexOf(e.key) > -1) {
+            e.preventDefault();
+        }
     },
 
     render: function () {
@@ -34,6 +36,7 @@ var SearchBox = React.createClass({
                     type="search"
                     value={ this.props.searchArgument }
                     onChange={ this.props.searchArgumentChange }
+                    onKeyDown={ this.handleKeyPress }
                     placeholder="Digite para filtrar opção..."
                     ref="q"
                 />

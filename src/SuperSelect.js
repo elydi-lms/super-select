@@ -45,7 +45,7 @@ var SuperSelect = React.createClass({
         valueLink: React.PropTypes.object
     },
 
-    getDefaultProps: function () {
+    getDefaultProps: function getDefaultProps() {
         "use strict";
 
         return {
@@ -63,7 +63,7 @@ var SuperSelect = React.createClass({
         };
     },
 
-    getInitialState: function () {
+    getInitialState: function getInitialState() {
         "use strict";
 
         return {
@@ -73,28 +73,28 @@ var SuperSelect = React.createClass({
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount: function componentDidMount() {
         "use strict";
 
         this.refs.container.addEventListener("click", this.addSuperSelectToEvent);
         document.addEventListener("click", this.closeOnClickOutside);
     },
 
-    componentWillUnmount: function () {
+    componentWillUnmount: function componentWillUnmount() {
         "use strict";
 
         this.refs.container.removeEventListener("click", this.addSuperSelectToEvent);
         document.removeEventListener("click", this.closeOnClickOutside);
     },
 
-    addSuperSelectToEvent: function (e) {
+    addSuperSelectToEvent: function addSuperSelectToEvent(e) {
         "use strict";
 
         // @todo i'm not happy with this
         e.superSelect = this;
     },
 
-    closeOnClickOutside: function (e) {
+    closeOnClickOutside: function closeOnClickOutside(e) {
         "use strict";
         var eventSuperSelect = e.superSelect || false;
         if (!eventSuperSelect || eventSuperSelect !== this) {
@@ -105,20 +105,20 @@ var SuperSelect = React.createClass({
         }
     },
 
-    getAllOptions: function () {
+    getAllOptions: function getAllOptions() {
         "use strict";
 
         return this.props.options || [];
     },
 
-    getOptions: function () {
+    getOptions: function getOptions() {
         "use strict";
 
         var options = this.props.options || [];
         var q = this.state.q;
         var fuse = new Fuse(options, {
             keys: this.props.searchKeys,
-            threshold: 0.4
+            // threshold: 0.4
         });
 
         if (!q.length) {
@@ -128,7 +128,7 @@ var SuperSelect = React.createClass({
         return fuse.search(q);
     },
 
-    getValue: function () {
+    getValue: function getValue() {
         "use strict";
 
         var value;
@@ -145,7 +145,7 @@ var SuperSelect = React.createClass({
         return value;
     },
 
-    buildbutton: function () {
+    buildbutton: function buildbutton() {
         "use strict";
 
         return (
@@ -168,7 +168,7 @@ var SuperSelect = React.createClass({
         );
     },
 
-    toggle: function (forceState) {
+    toggle: function toggle(forceState) {
         "use strict";
 
         var newState = typeof forceState === "boolean" ? forceState : !this.state.open;
@@ -178,13 +178,17 @@ var SuperSelect = React.createClass({
         });
     },
 
-    isChecked: function (item, returnIndex) {
+    isChecked: function isChecked(item, returnIndex) {
         "use strict";
 
         var index = false;
         var value = this.getValue();
         var found = false;
         var valueKey = this.props.valueKey;
+
+        if (!value) {
+            return false;
+        }
 
         if (this.props.multiple) {
             found = value.filter(function (option, i) {
@@ -200,7 +204,7 @@ var SuperSelect = React.createClass({
         return item[valueKey] == value[valueKey];
     },
 
-    handleChange: function (item) {
+    handleChange: function handleChange(item) {
         "use strict";
 
         var value = this.getValue();
@@ -221,7 +225,7 @@ var SuperSelect = React.createClass({
         this.dispatchChanges(value);
     },
 
-    dispatchChanges: function (newValue) {
+    dispatchChanges: function dispatchChanges(newValue) {
         "use strict";
 
         if (this.props.valueLink) {
@@ -229,9 +233,13 @@ var SuperSelect = React.createClass({
         } else if (typeof this.props.onChange === "function") {
             this.props.onChange(newValue);
         }
+
+        if (!this.props.multiple) {
+            this.setState({open: false});
+        }
     },
 
-    clean: function () {
+    clean: function clean() {
         "use strict";
 
         this.dispatchChanges(
@@ -239,13 +247,13 @@ var SuperSelect = React.createClass({
         );
     },
 
-    selectAll: function () {
+    selectAll: function selectAll() {
         "use strict";
 
         this.dispatchChanges(this.getOptions());
     },
 
-    handleChangeQ: function (event) {
+    handleChangeQ: function handleChangeQ(event) {
         "use strict";
 
         this.setState({
@@ -254,13 +262,19 @@ var SuperSelect = React.createClass({
         });
     },
 
-    handleNavigationKeys: function (e) {
+    handleNavigationKeys: function handleNavigationKeys(e) {
         "use strict";
 
         var currentPosition = this.state.pseudoHover || 0;
         var isEnter = e.key === "Enter";
         var open = this.state.open;
+        var mustRetainFocus = false;
         var self = this;
+        var container = self.refs.container;
+
+        if (isEnter) {
+            e.preventDefault();
+        }
 
         if (isEnter && !isNaN(currentPosition) && open) {
             var option = this.getOptions()[currentPosition] || false;
@@ -282,19 +296,20 @@ var SuperSelect = React.createClass({
 
         if (["Escape", "Tab"].indexOf(e.key) > -1) {
             open = false;
+            mustRetainFocus = true;
         }
 
         this.setState({
             open: open,
             pseudoHover: currentPosition
         }, function () {
-            if (open === false) {
-                self.refs.container.focus();
+            if (mustRetainFocus) {
+                container.focus();
             }
         });
     },
 
-    buildOptions: function () {
+    buildOptions: function buildOptions() {
         "use strict";
 
         return (
@@ -313,7 +328,7 @@ var SuperSelect = React.createClass({
         );
     },
 
-    buildSearchBox: function () {
+    buildSearchBox: function buildSearchBox() {
         "use strict";
 
         return (
@@ -326,7 +341,7 @@ var SuperSelect = React.createClass({
         );
     },
 
-    buildActions: function () {
+    buildActions: function buildActions() {
         "use strict";
 
         var actions = [];
@@ -345,7 +360,7 @@ var SuperSelect = React.createClass({
         return <Actions actions={ actions } key="actions" />;
     },
 
-    buildContent: function () {
+    buildContent: function buildContent() {
         "use strict";
 
         var content = [];
@@ -366,7 +381,7 @@ var SuperSelect = React.createClass({
         }
     },
 
-    render: function () {
+    render: function render() {
         "use strict";
 
         return (
