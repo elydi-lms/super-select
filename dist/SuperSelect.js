@@ -104,14 +104,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        return {
 	            actions: [],
-	            labelKey: "name",
+	            labelKey: "label",
 	            maxLabels: false,
 	            multiple: true,
 	            noLabels: false,
 	            options: [],
 	            searchBox: true,
-	            searchKeys: ["name"],
-	            valueKey: "id",
+	            searchKeys: ["label"],
+	            valueKey: "value",
 	            // html attrs
 	            tabIndex: 0
 	        };
