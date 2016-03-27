@@ -6,14 +6,14 @@ var Application = React.createClass({
             selecteds: [],
             selected: {},
             options: [{
-                id: 1,
-                name: "Android"
+                value: 1,
+                label: "Android"
             }, {
-                id: 2,
-                name: "iOS"
+                value: 2,
+                label: "iOS"
             }, {
-                id: 3,
-                name: "Windows Phone"
+                value: 3,
+                label: "Windows Phone"
             }]
         };
     },

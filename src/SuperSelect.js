@@ -122,7 +122,7 @@ var SuperSelect = React.createClass({
         });
 
         if (!q.length) {
-            return options;
+            return options.slice();
         }
 
         return fuse.search(q);
@@ -192,7 +192,7 @@ var SuperSelect = React.createClass({
 
         if (this.props.multiple) {
             found = value.filter(function (option, i) {
-                if (item.id == option.id) {
+                if (item[valueKey] == option[valueKey]) {
                     index = i;
                     return true;
                 }
