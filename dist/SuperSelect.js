@@ -156,6 +156,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!eventSuperSelect || eventSuperSelect !== this) {
 	            this.setState({
 	                open: false,
+	                q: "",
 	                pseudoHover: null
 	            });
 	        }
@@ -174,9 +175,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var q = this.state.q;
 	        var fuse = new Fuse(options, {
 	            keys: this.props.searchKeys
+	            // threshold: 0.4
 	        });
 
-	        // threshold: 0.4
 	        if (!q.length) {
 	            return options.slice();
 	        }
@@ -228,6 +229,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var newState = typeof forceState === "boolean" ? forceState : !this.state.open;
 	        this.setState({
 	            open: newState,
+	            q: newState ? this.state.q : "",
 	            pseudoHover: null
 	        });
 	    },
@@ -289,7 +291,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        if (!this.props.multiple) {
-	            this.setState({ open: false });
+	            this.setState({
+	                open: false,
+	                q: ""
+	            });
 	        }
 	    },
 
@@ -323,6 +328,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var mustRetainFocus = false;
 	        var self = this;
 	        var container = self.refs.container;
+	        var q = this.state.q;
 
 	        if (isEnter) {
 	            e.preventDefault();
@@ -349,11 +355,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (["Escape", "Tab"].indexOf(e.key) > -1) {
 	            open = false;
 	            mustRetainFocus = true;
+	            q = "";
 	        }
 
 	        this.setState({
 	            open: open,
-	            pseudoHover: currentPosition
+	            pseudoHover: currentPosition,
+	            q: q
 	        }, function () {
 	            if (mustRetainFocus) {
 	                container.focus();

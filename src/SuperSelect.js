@@ -100,6 +100,7 @@ var SuperSelect = React.createClass({
         if (!eventSuperSelect || eventSuperSelect !== this) {
             this.setState({
                 open: false,
+                q: "",
                 pseudoHover: null
             });
         }
@@ -117,7 +118,7 @@ var SuperSelect = React.createClass({
         var options = this.props.options || [];
         var q = this.state.q;
         var fuse = new Fuse(options, {
-            keys: this.props.searchKeys,
+            keys: this.props.searchKeys
             // threshold: 0.4
         });
 
@@ -174,6 +175,7 @@ var SuperSelect = React.createClass({
         var newState = typeof forceState === "boolean" ? forceState : !this.state.open;
         this.setState({
             open: newState,
+            q: newState ? this.state.q : "",
             pseudoHover: null
         });
     },
@@ -235,7 +237,10 @@ var SuperSelect = React.createClass({
         }
 
         if (!this.props.multiple) {
-            this.setState({open: false});
+            this.setState({
+                open: false,
+                q: ""
+            });
         }
     },
 
@@ -271,6 +276,7 @@ var SuperSelect = React.createClass({
         var mustRetainFocus = false;
         var self = this;
         var container = self.refs.container;
+        var q = this.state.q;
 
         if (isEnter) {
             e.preventDefault();
@@ -297,11 +303,13 @@ var SuperSelect = React.createClass({
         if (["Escape", "Tab"].indexOf(e.key) > -1) {
             open = false;
             mustRetainFocus = true;
+            q = ""
         }
 
         this.setState({
             open: open,
-            pseudoHover: currentPosition
+            pseudoHover: currentPosition,
+            q: q
         }, function () {
             if (mustRetainFocus) {
                 container.focus();
