@@ -81,6 +81,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            label: React.PropTypes.string.isRequired,
 	            content: React.PropTypes.element
 	        })),
+	        clearAllLabel: React.PropTypes.string,
 	        content: React.PropTypes.node,
 	        contentLabelProvider: React.PropTypes.func,
 	        groups: React.PropTypes.array,
@@ -95,6 +96,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        searchBox: React.PropTypes.bool,
 	        searchKeys: React.PropTypes.arrayOf(React.PropTypes.string),
 	        searchPlaceholder: React.PropTypes.string,
+	        selectAllLabel: React.PropTypes.string,
 	        value: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.arrayOf(React.PropTypes.object)]),
 	        valueKey: React.PropTypes.string,
 	        valueLink: React.PropTypes.object
@@ -105,6 +107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        return {
 	            actions: [],
+	            clearAllLabel: "Limpar seleção",
 	            labelKey: "label",
 	            maxLabels: false,
 	            multiple: true,
@@ -113,6 +116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            searchBox: true,
 	            searchKeys: ["label"],
 	            searchPlaceholder: "Digite para filtrar opção...",
+	            selectAllLabel: "Selecionar todos",
 	            valueKey: "value",
 	            // html attrs
 	            tabIndex: 0
@@ -406,11 +410,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var actions = [];
 	        if (this.props.options.length && this.props.multiple === true) {
 	            actions.push({
-	                label: "✓ Selecionar todos",
+	                label: "✓ ".concat(this.props.selectAllLabel),
 	                handler: this.selectAll
 	            });
 	            actions.push({
-	                label: "✘ Limpar seleção",
+	                label: "✘ ".concat(this.props.clearAllLabel),
 	                handler: this.clean
 	            });
 	        }

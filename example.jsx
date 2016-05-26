@@ -33,6 +33,8 @@ var Application = React.createClass({
                                 this.setState({selecteds: newSelecteds});
                             }.bind(this) }
                             searchPlaceholder="Filter items..."
+                            clearAllLabel="Clear all"
+                            selectAllLabel="Select all"
                         />
                     </div>
                     <div className="state">

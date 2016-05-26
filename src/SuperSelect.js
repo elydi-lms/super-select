@@ -17,6 +17,7 @@ var SuperSelect = React.createClass({
                 content: React.PropTypes.element
             })
         ),
+        clearAllLabel: React.PropTypes.string,
         content: React.PropTypes.node,
         contentLabelProvider: React.PropTypes.func,
         groups: React.PropTypes.array,
@@ -36,6 +37,7 @@ var SuperSelect = React.createClass({
             React.PropTypes.string
         ),
         searchPlaceholder: React.PropTypes.string,
+        selectAllLabel: React.PropTypes.string,
         value: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.arrayOf(
@@ -51,6 +53,7 @@ var SuperSelect = React.createClass({
 
         return {
             actions: [],
+            clearAllLabel: "Limpar seleção",
             labelKey: "label",
             maxLabels: false,
             multiple: true,
@@ -59,6 +62,7 @@ var SuperSelect = React.createClass({
             searchBox: true,
             searchKeys: ["label"],
             searchPlaceholder: "Digite para filtrar opção...",
+            selectAllLabel: "Selecionar todos",
             valueKey: "value",
             // html attrs
             tabIndex: 0
@@ -358,11 +362,11 @@ var SuperSelect = React.createClass({
         var actions = [];
         if (this.props.options.length && this.props.multiple === true) {
             actions.push({
-                label: "✓ Selecionar todos",
+                label: "✓ ".concat(this.props.selectAllLabel),
                 handler: this.selectAll
             });
             actions.push({
-                label: "✘ Limpar seleção",
+                label: "✘ ".concat(this.props.clearAllLabel),
                 handler: this.clean
             });
         }
