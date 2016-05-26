@@ -35,6 +35,7 @@ var Application = React.createClass({
                             searchPlaceholder="Filter items..."
                             clearAllLabel="Clear all"
                             selectAllLabel="Select all"
+                            allSelectedLabel={ this.state.selecteds.length.toString().concat(" selected") }
                         />
                     </div>
                     <div className="state">

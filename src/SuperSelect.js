@@ -17,6 +17,7 @@ var SuperSelect = React.createClass({
                 content: React.PropTypes.element
             })
         ),
+        allSelectedLabel: React.PropTypes.string,
         clearAllLabel: React.PropTypes.string,
         content: React.PropTypes.node,
         contentLabelProvider: React.PropTypes.func,
@@ -53,6 +54,7 @@ var SuperSelect = React.createClass({
 
         return {
             actions: [],
+            allItemsSelectedLabel: "todos",
             clearAllLabel: "Limpar seleção",
             labelKey: "label",
             maxLabels: false,
@@ -171,6 +173,7 @@ var SuperSelect = React.createClass({
                 noLabels={ this.props.noLabels }
                 tabIndex={ this.props.tabIndex }
                 handleFocus={ this.handleFocus }
+                allSelectedLabel={ this.props.allSelectedLabel }
             />
         );
     },

@@ -81,6 +81,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            label: React.PropTypes.string.isRequired,
 	            content: React.PropTypes.element
 	        })),
+	        allSelectedLabel: React.PropTypes.string,
 	        clearAllLabel: React.PropTypes.string,
 	        content: React.PropTypes.node,
 	        contentLabelProvider: React.PropTypes.func,
@@ -107,6 +108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        return {
 	            actions: [],
+	            allItemsSelectedLabel: "todos",
 	            clearAllLabel: "Limpar seleção",
 	            labelKey: "label",
 	            maxLabels: false,
@@ -225,7 +227,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            maxLabels: this.props.maxLabels,
 	            noLabels: this.props.noLabels,
 	            tabIndex: this.props.tabIndex,
-	            handleFocus: this.handleFocus
+	            handleFocus: this.handleFocus,
+	            allSelectedLabel: this.props.allSelectedLabel
 	        });
 	    },
 
@@ -1005,7 +1008,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            multiple: true,
 	            maxLabels: false,
 	            noLabels: false,
-	            contentLabelProvider: null
+	            contentLabelProvider: null,
+	            allSelectedLabel: "todos"
 	        };
 	    },
 
@@ -1054,7 +1058,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    text.push(React.createElement(
 	                        "span",
 	                        { className: "super-select-button-label-value", key: "all" },
-	                        "todos"
+	                        this.props.allSelectedLabel
 	                    ));
 	                } else if (this.props.noLabels === true) {
 	                    text.push(React.createElement(
