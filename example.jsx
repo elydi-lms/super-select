@@ -32,6 +32,7 @@ var Application = React.createClass({
                             onChange={ function (newSelecteds) {
                                 this.setState({selecteds: newSelecteds});
                             }.bind(this) }
+                            searchPlaceholder="Filter items..."
                         />
                     </div>
                     <div className="state">

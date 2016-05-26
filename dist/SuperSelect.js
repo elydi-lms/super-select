@@ -94,6 +94,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        optionRender: React.PropTypes.func,
 	        searchBox: React.PropTypes.bool,
 	        searchKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+	        searchPlaceholder: React.PropTypes.string,
 	        value: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.arrayOf(React.PropTypes.object)]),
 	        valueKey: React.PropTypes.string,
 	        valueLink: React.PropTypes.object
@@ -111,6 +112,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            options: [],
 	            searchBox: true,
 	            searchKeys: ["label"],
+	            searchPlaceholder: "Digite para filtrar opção...",
 	            valueKey: "value",
 	            // html attrs
 	            tabIndex: 0
@@ -393,6 +395,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            searchArgument: this.state.q,
 	            searchArgumentChange: this.handleChangeQ,
 	            searchKeys: this.props.searchKeys,
+	            searchPlaceholder: this.props.searchPlaceholder,
 	            key: "search-box"
 	        });
 	    },
@@ -1338,6 +1341,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        "use strict";
 
 	        return {
+	            searchPlaceholder: "Digite para filtrar opção...",
 	            searchArgument: "",
 	            searchArgumentChange: null
 	        };
@@ -1369,7 +1373,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                value: this.props.searchArgument,
 	                onChange: this.props.searchArgumentChange,
 	                onKeyDown: this.handleKeyPress,
-	                placeholder: "Digite para filtrar opção...",
+	                placeholder: this.props.searchPlaceholder,
 	                ref: "q"
 	            })
 	        );

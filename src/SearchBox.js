@@ -7,6 +7,7 @@ var SearchBox = React.createClass({
         "use strict";
 
         return {
+            searchPlaceholder: "Digite para filtrar opção...",
             searchArgument: "",
             searchArgumentChange: null
         };
@@ -37,7 +38,7 @@ var SearchBox = React.createClass({
                     value={ this.props.searchArgument }
                     onChange={ this.props.searchArgumentChange }
                     onKeyDown={ this.handleKeyPress }
-                    placeholder="Digite para filtrar opção..."
+                    placeholder={ this.props.searchPlaceholder }
                     ref="q"
                 />
             </div>

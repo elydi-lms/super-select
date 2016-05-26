@@ -35,6 +35,7 @@ var SuperSelect = React.createClass({
         searchKeys: React.PropTypes.arrayOf(
             React.PropTypes.string
         ),
+        searchPlaceholder: React.PropTypes.string,
         value: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.arrayOf(
@@ -57,6 +58,7 @@ var SuperSelect = React.createClass({
             options: [],
             searchBox: true,
             searchKeys: ["label"],
+            searchPlaceholder: "Digite para filtrar opção...",
             valueKey: "value",
             // html attrs
             tabIndex: 0
@@ -344,6 +346,7 @@ var SuperSelect = React.createClass({
                 searchArgument={ this.state.q }
                 searchArgumentChange={ this.handleChangeQ }
                 searchKeys={ this.props.searchKeys }
+                searchPlaceholder={ this.props.searchPlaceholder }
                 key="search-box"
             />
         );
