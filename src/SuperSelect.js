@@ -28,6 +28,7 @@ var SuperSelect = React.createClass({
             React.PropTypes.number,
             React.PropTypes.bool
         ]),
+        moreSelectedLabel: React.PropTypes.string,
         multiple: React.PropTypes.bool,
         noLabels: React.PropTypes.bool,
         onChange: React.PropTypes.func,
@@ -174,6 +175,7 @@ var SuperSelect = React.createClass({
                 tabIndex={ this.props.tabIndex }
                 handleFocus={ this.handleFocus }
                 allSelectedLabel={ this.props.allSelectedLabel }
+                moreSelectedLabel={ this.props.moreSelectedLabel }
             />
         );
     },

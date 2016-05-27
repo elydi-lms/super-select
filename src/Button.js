@@ -22,7 +22,8 @@ var Button = React.createClass({
             maxLabels: false,
             noLabels: false,
             contentLabelProvider: null,
-            allSelectedLabel: "todos"
+            allSelectedLabel: "todos",
+            moreSelectedLabel: null
         };
     },
 
@@ -94,7 +95,10 @@ var Button = React.createClass({
                     if (self.props.maxLabels !== false && self.props.maxLabels < self.props.value.length) {
                         text.push(
                             <span className="super-select-button-label-value" key="-1">
-                                mais { self.props.value.length - self.props.maxLabels }
+                                 { self.props.moreSelectedLabel
+                                     ? self.props.moreSelectedLabel
+                                     : "mais ".concat((self.props.value.length - self.props.maxLabels).toString())
+                                 }
                             </span>
                         );
                     }

@@ -89,6 +89,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        label: React.PropTypes.string.isRequired,
 	        labelKey: React.PropTypes.string,
 	        maxLabels: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.bool]),
+	        moreSelectedLabel: React.PropTypes.string,
 	        multiple: React.PropTypes.bool,
 	        noLabels: React.PropTypes.bool,
 	        onChange: React.PropTypes.func,
@@ -228,7 +229,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            noLabels: this.props.noLabels,
 	            tabIndex: this.props.tabIndex,
 	            handleFocus: this.handleFocus,
-	            allSelectedLabel: this.props.allSelectedLabel
+	            allSelectedLabel: this.props.allSelectedLabel,
+	            moreSelectedLabel: this.props.moreSelectedLabel
 	        });
 	    },
 
@@ -1009,7 +1011,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            maxLabels: false,
 	            noLabels: false,
 	            contentLabelProvider: null,
-	            allSelectedLabel: "todos"
+	            allSelectedLabel: "todos",
+	            moreSelectedLabel: null
 	        };
 	    },
 
@@ -1082,8 +1085,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        text.push(React.createElement(
 	                            "span",
 	                            { className: "super-select-button-label-value", key: "-1" },
-	                            "mais ",
-	                            self.props.value.length - self.props.maxLabels
+	                            self.props.moreSelectedLabel ? self.props.moreSelectedLabel : "mais ".concat((self.props.value.length - self.props.maxLabels).toString())
 	                        ));
 	                    }
 	                }
