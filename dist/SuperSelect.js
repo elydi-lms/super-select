@@ -110,7 +110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return {
 	            actions: [],
 	            allItemsSelectedLabel: "todos",
-	            clearAllLabel: "Limpar seleção",
+	            clearAllLabel: "✘ Limpar seleção",
 	            labelKey: "label",
 	            maxLabels: false,
 	            multiple: true,
@@ -119,7 +119,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            searchBox: true,
 	            searchKeys: ["label"],
 	            searchPlaceholder: "Digite para filtrar opção...",
-	            selectAllLabel: "Selecionar todos",
+	            selectAllLabel: "✓ Selecionar todos",
 	            valueKey: "value",
 	            // html attrs
 	            tabIndex: 0
@@ -415,11 +415,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var actions = [];
 	        if (this.props.options.length && this.props.multiple === true) {
 	            actions.push({
-	                label: "✓ ".concat(this.props.selectAllLabel),
+	                label: this.props.selectAllLabel,
 	                handler: this.selectAll
 	            });
 	            actions.push({
-	                label: "✘ ".concat(this.props.clearAllLabel),
+	                label: this.props.clearAllLabel,
 	                handler: this.clean
 	            });
 	        }
