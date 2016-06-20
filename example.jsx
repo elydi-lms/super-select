@@ -1,5 +1,6 @@
 var Application = React.createClass({
     displayName: "Application",
+    maxLabels: 2,
 
     getInitialState: function () {
         return {
@@ -14,6 +15,9 @@ var Application = React.createClass({
             }, {
                 value: 3,
                 label: "Windows Phone"
+            }, {
+                value: 4,
+                label: "Blackburry"
             }]
         };
     },
@@ -32,6 +36,12 @@ var Application = React.createClass({
                             onChange={ function (newSelecteds) {
                                 this.setState({selecteds: newSelecteds});
                             }.bind(this) }
+                            searchPlaceholder="Filter items..."
+                            clearAllLabel="Clear all"
+                            selectAllLabel="Select all"
+                            allSelectedLabel={ this.state.selecteds.length.toString().concat(" selected") }
+                            maxLabels={this.maxLabels}
+                            moreSelectedLabel={ (this.state.selecteds.length - this.maxLabels).toString().concat(" more") }
                         />
                     </div>
                     <div className="state">

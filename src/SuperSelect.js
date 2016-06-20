@@ -17,6 +17,8 @@ var SuperSelect = React.createClass({
                 content: React.PropTypes.element
             })
         ),
+        allSelectedLabel: React.PropTypes.string,
+        clearAllLabel: React.PropTypes.string,
         content: React.PropTypes.node,
         contentLabelProvider: React.PropTypes.func,
         groups: React.PropTypes.array,
@@ -26,6 +28,7 @@ var SuperSelect = React.createClass({
             React.PropTypes.number,
             React.PropTypes.bool
         ]),
+        moreSelectedLabel: React.PropTypes.string,
         multiple: React.PropTypes.bool,
         noLabels: React.PropTypes.bool,
         onChange: React.PropTypes.func,
@@ -35,6 +38,8 @@ var SuperSelect = React.createClass({
         searchKeys: React.PropTypes.arrayOf(
             React.PropTypes.string
         ),
+        searchPlaceholder: React.PropTypes.string,
+        selectAllLabel: React.PropTypes.string,
         value: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.arrayOf(
@@ -50,6 +55,8 @@ var SuperSelect = React.createClass({
 
         return {
             actions: [],
+            allItemsSelectedLabel: "todos",
+            clearAllLabel: "✘ Limpar seleção",
             labelKey: "label",
             maxLabels: false,
             multiple: true,
@@ -57,6 +64,8 @@ var SuperSelect = React.createClass({
             options: [],
             searchBox: true,
             searchKeys: ["label"],
+            searchPlaceholder: "Digite para filtrar opção...",
+            selectAllLabel: "✓ Selecionar todos",
             valueKey: "value",
             // html attrs
             tabIndex: 0
@@ -165,6 +174,8 @@ var SuperSelect = React.createClass({
                 noLabels={ this.props.noLabels }
                 tabIndex={ this.props.tabIndex }
                 handleFocus={ this.handleFocus }
+                allSelectedLabel={ this.props.allSelectedLabel }
+                moreSelectedLabel={ this.props.moreSelectedLabel }
             />
         );
     },
@@ -344,6 +355,7 @@ var SuperSelect = React.createClass({
                 searchArgument={ this.state.q }
                 searchArgumentChange={ this.handleChangeQ }
                 searchKeys={ this.props.searchKeys }
+                searchPlaceholder={ this.props.searchPlaceholder }
                 key="search-box"
             />
         );
@@ -355,11 +367,11 @@ var SuperSelect = React.createClass({
         var actions = [];
         if (this.props.options.length && this.props.multiple === true) {
             actions.push({
-                label: "✓ Selecionar todos",
+                label: this.props.selectAllLabel,
                 handler: this.selectAll
             });
             actions.push({
-                label: "✘ Limpar seleção",
+                label: this.props.clearAllLabel,
                 handler: this.clean
             });
         }

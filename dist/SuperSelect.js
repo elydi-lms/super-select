@@ -81,12 +81,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	            label: React.PropTypes.string.isRequired,
 	            content: React.PropTypes.element
 	        })),
+	        allSelectedLabel: React.PropTypes.string,
+	        clearAllLabel: React.PropTypes.string,
 	        content: React.PropTypes.node,
 	        contentLabelProvider: React.PropTypes.func,
 	        groups: React.PropTypes.array,
 	        label: React.PropTypes.string.isRequired,
 	        labelKey: React.PropTypes.string,
 	        maxLabels: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.bool]),
+	        moreSelectedLabel: React.PropTypes.string,
 	        multiple: React.PropTypes.bool,
 	        noLabels: React.PropTypes.bool,
 	        onChange: React.PropTypes.func,
@@ -94,6 +97,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        optionRender: React.PropTypes.func,
 	        searchBox: React.PropTypes.bool,
 	        searchKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+	        searchPlaceholder: React.PropTypes.string,
+	        selectAllLabel: React.PropTypes.string,
 	        value: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.arrayOf(React.PropTypes.object)]),
 	        valueKey: React.PropTypes.string,
 	        valueLink: React.PropTypes.object
@@ -104,6 +109,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        return {
 	            actions: [],
+	            allItemsSelectedLabel: "todos",
+	            clearAllLabel: "✘ Limpar seleção",
 	            labelKey: "label",
 	            maxLabels: false,
 	            multiple: true,
@@ -111,6 +118,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            options: [],
 	            searchBox: true,
 	            searchKeys: ["label"],
+	            searchPlaceholder: "Digite para filtrar opção...",
+	            selectAllLabel: "✓ Selecionar todos",
 	            valueKey: "value",
 	            // html attrs
 	            tabIndex: 0
@@ -219,7 +228,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            maxLabels: this.props.maxLabels,
 	            noLabels: this.props.noLabels,
 	            tabIndex: this.props.tabIndex,
-	            handleFocus: this.handleFocus
+	            handleFocus: this.handleFocus,
+	            allSelectedLabel: this.props.allSelectedLabel,
+	            moreSelectedLabel: this.props.moreSelectedLabel
 	        });
 	    },
 
@@ -393,6 +404,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            searchArgument: this.state.q,
 	            searchArgumentChange: this.handleChangeQ,
 	            searchKeys: this.props.searchKeys,
+	            searchPlaceholder: this.props.searchPlaceholder,
 	            key: "search-box"
 	        });
 	    },
@@ -403,11 +415,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var actions = [];
 	        if (this.props.options.length && this.props.multiple === true) {
 	            actions.push({
-	                label: "✓ Selecionar todos",
+	                label: this.props.selectAllLabel,
 	                handler: this.selectAll
 	            });
 	            actions.push({
-	                label: "✘ Limpar seleção",
+	                label: this.props.clearAllLabel,
 	                handler: this.clean
 	            });
 	        }
@@ -998,7 +1010,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            multiple: true,
 	            maxLabels: false,
 	            noLabels: false,
-	            contentLabelProvider: null
+	            contentLabelProvider: null,
+	            allSelectedLabel: "todos",
+	            moreSelectedLabel: null
 	        };
 	    },
 
@@ -1047,7 +1061,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    text.push(React.createElement(
 	                        "span",
 	                        { className: "super-select-button-label-value", key: "all" },
-	                        "todos"
+	                        this.props.allSelectedLabel
 	                    ));
 	                } else if (this.props.noLabels === true) {
 	                    text.push(React.createElement(
@@ -1071,8 +1085,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        text.push(React.createElement(
 	                            "span",
 	                            { className: "super-select-button-label-value", key: "-1" },
-	                            "mais ",
-	                            self.props.value.length - self.props.maxLabels
+	                            self.props.moreSelectedLabel ? self.props.moreSelectedLabel : "mais ".concat((self.props.value.length - self.props.maxLabels).toString())
 	                        ));
 	                    }
 	                }
@@ -1338,6 +1351,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        "use strict";
 
 	        return {
+	            searchPlaceholder: "Digite para filtrar opção...",
 	            searchArgument: "",
 	            searchArgumentChange: null
 	        };
@@ -1369,7 +1383,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                value: this.props.searchArgument,
 	                onChange: this.props.searchArgumentChange,
 	                onKeyDown: this.handleKeyPress,
-	                placeholder: "Digite para filtrar opção...",
+	                placeholder: this.props.searchPlaceholder,
 	                ref: "q"
 	            })
 	        );
