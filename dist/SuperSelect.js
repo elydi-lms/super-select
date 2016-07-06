@@ -90,6 +90,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        multiple: React.PropTypes.bool,
 	        noLabels: React.PropTypes.bool,
 	        onChange: React.PropTypes.func,
+	        onClose: React.PropTypes.func,
+	        onOpen: React.PropTypes.func,
 	        options: React.PropTypes.array,
 	        optionRender: React.PropTypes.func,
 	        searchBox: React.PropTypes.bool,
@@ -139,6 +141,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        this.refs.container.removeEventListener("click", this.addSuperSelectToEvent);
 	        document.removeEventListener("click", this.closeOnClickOutside);
+	    },
+
+	    componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
+	        if (nextState.open && typeof this.props.onOpen === "function") {
+	            this.props.onOpen();
+	        } else if (!nextState.open && typeof this.props.onClose === "function") {
+	            this.props.onClose();
+	        }
 	    },
 
 	    addSuperSelectToEvent: function addSuperSelectToEvent(e) {
@@ -438,12 +448,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    render: function render() {
-	        "use strict";
-
 	        return React.createElement(
 	            "div",
 	            {
-	                className: "super-select-container",
+	                className: "super-select-container" + (this.state.open ? " open" : ""),
 	                ref: "container",
 	                onKeyDown: this.handleNavigationKeys,
 	                tabIndex: this.props.tabIndex

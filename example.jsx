@@ -32,6 +32,12 @@ var Application = React.createClass({
                             onChange={ function (newSelecteds) {
                                 this.setState({selecteds: newSelecteds});
                             }.bind(this) }
+                            onOpen={ function () {
+                                console.log("opened")
+                            }.bind(this) }
+                            onClose={ function () {
+                                console.log("closed")
+                            }.bind(this) }
                         />
                     </div>
                     <div className="state">
