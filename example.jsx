@@ -42,6 +42,12 @@ var Application = React.createClass({
                             allSelectedLabel={ this.state.selecteds.length.toString().concat(" selected") }
                             maxLabels={this.maxLabels}
                             moreSelectedLabel={ (this.state.selecteds.length - this.maxLabels).toString().concat(" more") }
+                            onOpen={ function () {
+                                console.log("opened")
+                            }.bind(this) }
+                            onClose={ function () {
+                                console.log("closed")
+                            }.bind(this) }
                         />
                     </div>
                     <div className="state">
