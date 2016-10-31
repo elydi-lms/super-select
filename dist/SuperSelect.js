@@ -207,7 +207,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    getValue: function getValue() {
 	        "use strict";
 
-	        var value;
+	        var value = void 0;
 	        if (this.props.valueLink) {
 	            value = this.props.valueLink.value;
 	        } else {
@@ -285,7 +285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        "use strict";
 
 	        var value = this.getValue();
-	        var current;
+	        var current = void 0;
 
 	        if (this.props.multiple) {
 	            current = this.isChecked(item, true);
@@ -1000,7 +1000,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * @todo support max display items
 	 */
-
 	var Button = React.createClass({
 	    displayName: "SuperSelect.button",
 
@@ -1328,6 +1327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        return this.props.content || this.props.label;
 	    },
+
 	    render: function render() {
 	        "use strict";
 

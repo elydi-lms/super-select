@@ -1,6 +1,6 @@
-var React = require("react");
+const React = require("react");
 
-var Action = React.createClass({
+let Action = React.createClass({
     displayName: "SuperSelect.Action",
 
     getDefaultProps: function () {
@@ -20,6 +20,7 @@ var Action = React.createClass({
 
         return this.props.content || this.props.label;
     },
+
     render: function () {
         "use strict";
 

@@ -1,12 +1,12 @@
-var React = require("react");
-var Fuse = require("fuse.js");
+const React = require("react");
+const Fuse = require("fuse.js");
 
-var Button = require("./Button");
-var OptionsList = require("./OptionsList");
-var Actions = require("./Actions");
-var SearchBox = require("./SearchBox");
+const Button = require("./Button");
+const OptionsList = require("./OptionsList");
+const Actions = require("./Actions");
+const SearchBox = require("./SearchBox");
 
-var SuperSelect = React.createClass({
+let SuperSelect = React.createClass({
     displayName: "SuperSelect",
 
     propTypes: {
@@ -115,7 +115,7 @@ var SuperSelect = React.createClass({
 
     closeOnClickOutside: function closeOnClickOutside(e) {
         "use strict";
-        var eventSuperSelect = e.superSelect || false;
+        let eventSuperSelect = e.superSelect || false;
         if (!eventSuperSelect || eventSuperSelect !== this) {
             this.setState({
                 open: false,
@@ -134,9 +134,9 @@ var SuperSelect = React.createClass({
     getOptions: function getOptions() {
         "use strict";
 
-        var options = this.props.options || [];
-        var q = this.state.q;
-        var fuse = new Fuse(options, {
+        let options = this.props.options || [];
+        let q = this.state.q;
+        let fuse = new Fuse(options, {
             keys: this.props.searchKeys
             // threshold: 0.4
         });
@@ -151,7 +151,7 @@ var SuperSelect = React.createClass({
     getValue: function getValue() {
         "use strict";
 
-        var value;
+        let value;
         if (this.props.valueLink) {
             value = this.props.valueLink.value;
         } else {
@@ -193,7 +193,7 @@ var SuperSelect = React.createClass({
     toggle: function toggle(forceState) {
         "use strict";
 
-        var newState = typeof forceState === "boolean" ? forceState : !this.state.open;
+        let newState = typeof forceState === "boolean" ? forceState : !this.state.open;
         this.setState({
             open: newState,
             q: newState ? this.state.q : "",
@@ -204,10 +204,10 @@ var SuperSelect = React.createClass({
     isChecked: function isChecked(item, returnIndex) {
         "use strict";
 
-        var index = false;
-        var value = this.getValue();
-        var found = false;
-        var valueKey = this.props.valueKey;
+        let index = false;
+        let value = this.getValue();
+        let found = false;
+        let valueKey = this.props.valueKey;
 
         if (!value) {
             return false;
@@ -230,8 +230,8 @@ var SuperSelect = React.createClass({
     handleChange: function handleChange(item) {
         "use strict";
 
-        var value = this.getValue();
-        var current;
+        let value = this.getValue();
+        let current;
 
         if (this.props.multiple) {
             current = this.isChecked(item, true);
@@ -291,20 +291,20 @@ var SuperSelect = React.createClass({
     handleNavigationKeys: function handleNavigationKeys(e) {
         "use strict";
 
-        var currentPosition = this.state.pseudoHover || 0;
-        var isEnter = e.key === "Enter";
-        var open = this.state.open;
-        var mustRetainFocus = false;
-        var self = this;
-        var container = self.refs.container;
-        var q = this.state.q;
+        let currentPosition = this.state.pseudoHover || 0;
+        let isEnter = e.key === "Enter";
+        let open = this.state.open;
+        let mustRetainFocus = false;
+        let self = this;
+        let container = self.refs.container;
+        let q = this.state.q;
 
         if (isEnter) {
             e.preventDefault();
         }
 
         if (isEnter && !isNaN(currentPosition) && open) {
-            var option = this.getOptions()[currentPosition] || false;
+            let option = this.getOptions()[currentPosition] || false;
             if (option) {
                 this.handleChange(option);
             }
@@ -374,7 +374,7 @@ var SuperSelect = React.createClass({
     buildActions: function buildActions() {
         "use strict";
 
-        var actions = [];
+        let actions = [];
         if (this.props.options.length && this.props.multiple === true) {
             actions.push({
                 label: this.props.selectAllLabel,
@@ -393,7 +393,7 @@ var SuperSelect = React.createClass({
     buildContent: function buildContent() {
         "use strict";
 
-        var content = [];
+        let content = [];
 
         if (this.state.open) {
             if (this.props.searchBox) {
