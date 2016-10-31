@@ -1,8 +1,8 @@
-var React = require("react");
+const React = require("react");
 
-var Option = require("./Option");
+const Option = require("./Option");
 
-var OptionsList = React.createClass({
+let OptionsList = React.createClass({
     displayName: "SuperSelect.OptionsList",
 
     getDefaultProps: function () {
@@ -21,8 +21,8 @@ var OptionsList = React.createClass({
     renderOptions: function () {
         "use strict";
 
-        var self = this;
-        var options = this.props.options;
+        let self = this;
+        let options = this.props.options;
         if (!options.length) {
             return (
                 <li
@@ -35,7 +35,7 @@ var OptionsList = React.createClass({
         }
 
         return options.map(function (item, index) {
-            var optionProps = {
+            let optionProps = {
                 index: index,
                 pseudoHover: index === self.props.currentHover,
                 checked: self.props.isChecked(item),
@@ -50,7 +50,7 @@ var OptionsList = React.createClass({
             }
 
             return (
-                <Option { ...optionProps } key={ index } />
+                <Option { ...optionProps } key={ index }/>
             );
         });
     },

@@ -1,10 +1,9 @@
-var React = require("react");
+const React = require("react");
 
 /**
  * @todo support max display items
  */
-
-var Button = React.createClass({
+let Button = React.createClass({
     displayName: "SuperSelect.button",
 
     getDefaultProps: function () {
@@ -36,7 +35,7 @@ var Button = React.createClass({
     getLabel: function () {
         "use strict";
 
-        var label = this.props.label;
+        let label = this.props.label;
         if (typeof this.props.contentLabelProvider === "function") {
             label = this.props.contentLabelProvider();
         }
@@ -55,11 +54,11 @@ var Button = React.createClass({
     render: function () {
         "use strict";
 
-        var self = this;
-        var className = this.getClassName();
-        var text = [];
-        var countValues = 0;
-        var value = this.props.value;
+        let self = this;
+        let className = this.getClassName();
+        let text = [];
+        let countValues = 0;
+        let value = this.props.value;
 
         text.push(this.getLabel());
 

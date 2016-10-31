@@ -3,7 +3,8 @@
   "keywords": [
     "react-component",
     "select",
-    "select-multiple"
+    "select-multiple",
+    "datalist"
   ],
   "description": "",
   "main": "lib/SuperSelect.js",

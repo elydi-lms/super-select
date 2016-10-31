@@ -1,7 +1,7 @@
-var React = require("react");
-var Action = require("./Action");
+const React = require("react");
+const Action = require("./Action");
 
-var Actions = React.createClass({
+let Actions = React.createClass({
     displayName: "SuperSelect.Actions",
 
     getDefaultProps: function () {
@@ -22,7 +22,7 @@ var Actions = React.createClass({
         return (
             <ul className="super-select-actions">
                 { this.props.actions.map(function (action, index) {
-                    return <Action { ...action } key={ index } />;
+                    return <Action { ...action } key={ index }/>;
                 }) }
             </ul>
         );

@@ -1,6 +1,6 @@
-var React = require("react");
+const React = require("react");
 
-var SearchBox = React.createClass({
+let SearchBox = React.createClass({
     displayName: "SuperSelect.SearchBox",
 
     getDefaultProps: function () {

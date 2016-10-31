@@ -1,6 +1,6 @@
-var React = require("react");
+const React = require("react");
 
-var Option = React.createClass({
+let Option = React.createClass({
     displayName: "SuperSelect.Option",
 
     getDefaultProps: function () {
@@ -25,8 +25,8 @@ var Option = React.createClass({
     render: function () {
         "use strict";
 
-        var className = "super-select-options-list-item";
-        var type = this.props.multiple ? "checkbox" : "radio";
+        let className = "super-select-options-list-item";
+        let type = this.props.multiple ? "checkbox" : "radio";
 
         if (this.props.pseudoHover) {
             className += " hover";
@@ -41,7 +41,7 @@ var Option = React.createClass({
                         onChange={ this.handleChange }
                         tabIndex="-1"
                     />
-                { this.props.option[this.props.labelKey] }
+                    { this.props.option[this.props.labelKey] }
                 </label>
             </li>
         );
