@@ -1,144 +1,81 @@
-const React = require("react");
-const Fuse = require("fuse.js");
+import Types from "prop-types";
+import React from "react";
+import Fuse from "fuse.js";
+import Button from "./Button";
+import OptionsList from "./OptionsList";
+import SearchBox from "./SearchBox";
+import Actions from "./Actions";
 
-const Button = require("./Button");
-const OptionsList = require("./OptionsList");
-const Actions = require("./Actions");
-const SearchBox = require("./SearchBox");
-
-let SuperSelect = React.createClass({
-    displayName: "SuperSelect",
-
-    propTypes: {
-        actions: React.PropTypes.arrayOf(
-            React.PropTypes.shape({
-                handler: React.PropTypes.func.isRequired,
-                label: React.PropTypes.string.isRequired,
-                content: React.PropTypes.element
-            })
-        ),
-        allSelectedLabel: React.PropTypes.string,
-        clearAllLabel: React.PropTypes.string,
-        content: React.PropTypes.node,
-        contentLabelProvider: React.PropTypes.func,
-        groups: React.PropTypes.array,
-        label: React.PropTypes.string.isRequired,
-        labelKey: React.PropTypes.string,
-        maxLabels: React.PropTypes.oneOfType([
-            React.PropTypes.number,
-            React.PropTypes.bool
-        ]),
-        moreSelectedLabel: React.PropTypes.string,
-        multiple: React.PropTypes.bool,
-        noLabels: React.PropTypes.bool,
-        onChange: React.PropTypes.func,
-        onClose: React.PropTypes.func,
-        onOpen: React.PropTypes.func,
-        options: React.PropTypes.array,
-        optionRender: React.PropTypes.func,
-        searchBox: React.PropTypes.bool,
-        searchKeys: React.PropTypes.arrayOf(
-            React.PropTypes.string
-        ),
-        searchPlaceholder: React.PropTypes.string,
-        selectAllLabel: React.PropTypes.string,
-        value: React.PropTypes.oneOfType([
-            React.PropTypes.object,
-            React.PropTypes.arrayOf(
-                React.PropTypes.object
-            )
-        ]),
-        valueKey: React.PropTypes.string,
-        valueLink: React.PropTypes.object
-    },
-
-    getDefaultProps: function getDefaultProps() {
-        "use strict";
-
-        return {
-            actions: [],
-            allItemsSelectedLabel: "todos",
-            clearAllLabel: "✘ Limpar seleção",
-            labelKey: "label",
-            maxLabels: false,
-            multiple: true,
-            noLabels: false,
-            options: [],
-            searchBox: true,
-            searchKeys: ["label"],
-            searchPlaceholder: "Digite para filtrar opção...",
-            selectAllLabel: "✓ Selecionar todos",
-            valueKey: "value",
-            // html attrs
-            tabIndex: 0
-        };
-    },
-
-    getInitialState: function getInitialState() {
-        "use strict";
-
-        return {
+class SuperSelect extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             open: false,
             pseudoHover: null,
             q: ""
         };
-    },
 
-    componentDidMount: function componentDidMount() {
-        "use strict";
+        this.addSuperSelectToEvent = this.addSuperSelectToEvent.bind(this);
+        this.closeOnClickOutside = this.closeOnClickOutside.bind(this);
+        this.getAllOptions = this.getAllOptions.bind(this);
+        this.getOptions = this.getOptions.bind(this);
+        this.getValue = this.getValue.bind(this);
+        this.buildbutton = this.buildbutton.bind(this);
+        this.toggle = this.toggle.bind(this);
+        this.isChecked = this.isChecked.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.dispatchChanges = this.dispatchChanges.bind(this);
+        this.clean = this.clean.bind(this);
+        this.selectAll = this.selectAll.bind(this);
+        this.handleChangeQ = this.handleChangeQ.bind(this);
+        this.handleNavigationKeys = this.handleNavigationKeys.bind(this);
+        this.buildOptions = this.buildOptions.bind(this);
+        this.buildSearchBox = this.buildSearchBox.bind(this);
+        this.buildActions = this.buildActions.bind(this);
+        this.buildContent = this.buildContent.bind(this);
+    }
 
-        this.refs.container.addEventListener("click", this.addSuperSelectToEvent);
+    componentDidMount() {
+        this.container.addEventListener("click", this.addSuperSelectToEvent);
         document.addEventListener("click", this.closeOnClickOutside);
-    },
+    }
 
-    componentWillUnmount: function componentWillUnmount() {
-        "use strict";
-
-        this.refs.container.removeEventListener("click", this.addSuperSelectToEvent);
+    componentWillUnmount() {
+        this.container.removeEventListener("click", this.addSuperSelectToEvent);
         document.removeEventListener("click", this.closeOnClickOutside);
-    },
+    }
 
-    componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
+    componentWillUpdate(nextProps, nextState) {
         if (nextState.open && typeof this.props.onOpen === "function") {
             this.props.onOpen();
         } else if(!nextState.open && typeof this.props.onClose === "function") {
             this.props.onClose();
         }
-    },
+    }
 
-    addSuperSelectToEvent: function addSuperSelectToEvent(e) {
-        "use strict";
-
+    addSuperSelectToEvent(e) {
         // @todo i'm not happy with this
         e.superSelect = this;
-    },
+    }
 
-    closeOnClickOutside: function closeOnClickOutside(e) {
-        "use strict";
+    closeOnClickOutside(e) {
         let eventSuperSelect = e.superSelect || false;
         if (!eventSuperSelect || eventSuperSelect !== this) {
             this.setState({
-                open: false,
-                q: "",
-                pseudoHover: null
+                open: false, q: "", pseudoHover: null
             });
         }
-    },
+    }
 
-    getAllOptions: function getAllOptions() {
-        "use strict";
-
+    getAllOptions() {
         return this.props.options || [];
-    },
+    }
 
-    getOptions: function getOptions() {
-        "use strict";
-
-        let options = this.props.options || [];
-        let q = this.state.q;
-        let fuse = new Fuse(options, {
+    getOptions() {
+        const options = this.props.options || [];
+        const q = this.state.q;
+        const fuse = new Fuse(options, {
             keys: this.props.searchKeys
-            // threshold: 0.4
         });
 
         if (!q.length) {
@@ -146,11 +83,9 @@ let SuperSelect = React.createClass({
         }
 
         return fuse.search(q);
-    },
+    }
 
-    getValue: function getValue() {
-        "use strict";
-
+    getValue() {
         let value;
         if (this.props.valueLink) {
             value = this.props.valueLink.value;
@@ -163,11 +98,9 @@ let SuperSelect = React.createClass({
         }
 
         return value;
-    },
+    }
 
-    buildbutton: function buildbutton() {
-        "use strict";
-
+    buildbutton() {
         return (
             <Button
                 label={ this.props.label }
@@ -188,26 +121,22 @@ let SuperSelect = React.createClass({
                 moreSelectedLabel={ this.props.moreSelectedLabel }
             />
         );
-    },
+    }
 
-    toggle: function toggle(forceState) {
-        "use strict";
-
-        let newState = typeof forceState === "boolean" ? forceState : !this.state.open;
+    toggle(forceState) {
+        const newState = typeof forceState === "boolean" ? forceState : !this.state.open;
         this.setState({
             open: newState,
             q: newState ? this.state.q : "",
             pseudoHover: null
         });
-    },
+    }
 
-    isChecked: function isChecked(item, returnIndex) {
-        "use strict";
-
+    isChecked(item, returnIndex) {
+        const value = this.getValue();
         let index = false;
-        let value = this.getValue();
         let found = false;
-        let valueKey = this.props.valueKey;
+        const valueKey = this.props.valueKey;
 
         if (!value) {
             return false;
@@ -225,11 +154,9 @@ let SuperSelect = React.createClass({
         }
 
         return item[valueKey] == value[valueKey];
-    },
+    }
 
-    handleChange: function handleChange(item) {
-        "use strict";
-
+    handleChange(item) {
         let value = this.getValue();
         let current;
 
@@ -246,11 +173,9 @@ let SuperSelect = React.createClass({
         }
 
         this.dispatchChanges(value);
-    },
+    }
 
-    dispatchChanges: function dispatchChanges(newValue) {
-        "use strict";
-
+    dispatchChanges(newValue) {
         if (this.props.valueLink) {
             this.props.valueLink.requestChange(newValue);
         } else if (typeof this.props.onChange === "function") {
@@ -263,41 +188,34 @@ let SuperSelect = React.createClass({
                 q: ""
             });
         }
-    },
+    }
 
-    clean: function clean() {
-        "use strict";
-
+    clean() {
         this.dispatchChanges(
             this.props.multiple ? [] : null
         );
-    },
+    }
 
-    selectAll: function selectAll() {
-        "use strict";
-
+    selectAll() {
         this.dispatchChanges(this.getOptions());
-    },
+    }
 
-    handleChangeQ: function handleChangeQ(event) {
-        "use strict";
-
+    handleChangeQ(event) {
         this.setState({
             q: event.target.value,
             pseudoHover: null
         });
-    },
+    }
 
-    handleNavigationKeys: function handleNavigationKeys(e) {
+    handleNavigationKeys(e) {
         "use strict";
 
+        const isEnter = e.key === "Enter";
+        const container = this.container;
+        let q = this.state.q;
         let currentPosition = this.state.pseudoHover || 0;
-        let isEnter = e.key === "Enter";
         let open = this.state.open;
         let mustRetainFocus = false;
-        let self = this;
-        let container = self.refs.container;
-        let q = this.state.q;
 
         if (isEnter) {
             e.preventDefault();
@@ -324,7 +242,7 @@ let SuperSelect = React.createClass({
         if (["Escape", "Tab"].indexOf(e.key) > -1) {
             open = false;
             mustRetainFocus = true;
-            q = ""
+            q = "";
         }
 
         this.setState({
@@ -336,11 +254,9 @@ let SuperSelect = React.createClass({
                 container.focus();
             }
         });
-    },
+    }
 
-    buildOptions: function buildOptions() {
-        "use strict";
-
+    buildOptions() {
         return (
             <OptionsList
                 options={ this.getOptions() }
@@ -355,11 +271,9 @@ let SuperSelect = React.createClass({
                 key="options-list"
             />
         );
-    },
+    }
 
-    buildSearchBox: function buildSearchBox() {
-        "use strict";
-
+    buildSearchBox() {
         return (
             <SearchBox
                 searchArgument={ this.state.q }
@@ -369,11 +283,9 @@ let SuperSelect = React.createClass({
                 key="search-box"
             />
         );
-    },
+    }
 
-    buildActions: function buildActions() {
-        "use strict";
-
+    buildActions() {
         let actions = [];
         if (this.props.options.length && this.props.multiple === true) {
             actions.push({
@@ -388,11 +300,9 @@ let SuperSelect = React.createClass({
         actions = actions.concat(this.props.actions);
 
         return <Actions actions={ actions } key="actions" />;
-    },
+    }
 
-    buildContent: function buildContent() {
-        "use strict";
-
+    buildContent() {
         let content = [];
 
         if (this.state.open) {
@@ -409,9 +319,9 @@ let SuperSelect = React.createClass({
                 </div>
             );
         }
-    },
+    }
 
-    render: function render() {
+    render() {
         return (
             <div
                 className={"super-select-container" + (this.state.open ? " open" : "")}
@@ -424,6 +334,66 @@ let SuperSelect = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = SuperSelect;
+SuperSelect.displayName = "SuperSelect";
+SuperSelect.defaultProps = {
+    actions: [],
+    allItemsSelectedLabel: "todos",
+    clearAllLabel: "✘ Limpar seleção",
+    labelKey: "label",
+    maxLabels: false,
+    multiple: true,
+    noLabels: false,
+    options: [],
+    searchBox: true,
+    searchKeys: ["label"],
+    searchPlaceholder: "Digite para filtrar opção...",
+    selectAllLabel: "✓ Selecionar todos",
+    valueKey: "value",
+    // html attrs
+    tabIndex: 0
+};
+SuperSelect.propTypes = {
+    actions: Types.arrayOf(
+        Types.shape({
+            handler: Types.func.isRequired,
+            label: Types.string.isRequired,
+            content: Types.element
+        })
+    ),
+    allSelectedLabel: Types.string,
+    clearAllLabel: Types.string,
+    content: Types.node,
+    contentLabelProvider: Types.func,
+    groups: Types.array,
+    label: Types.string.isRequired,
+    labelKey: Types.string,
+    maxLabels: Types.oneOfType([
+        Types.number,
+        Types.bool
+    ]),
+    moreSelectedLabel: Types.string,
+    multiple: Types.bool,
+    noLabels: Types.bool,
+    onChange: Types.func,
+    onClose: Types.func,
+    onOpen: Types.func,
+    options: Types.array,
+    optionRender: Types.func,
+    searchBox: Types.bool,
+    searchKeys: Types.arrayOf(
+        Types.string
+    ),
+    searchPlaceholder: Types.string,
+    selectAllLabel: Types.string,
+    value: Types.oneOfType([
+        Types.object,
+        Types.arrayOf(
+            Types.object
+        )
+    ]),
+    valueKey: Types.string,
+    valueLink: Types.object
+};
+export default SuperSelect;

@@ -1,32 +1,19 @@
-const React = require("react");
+import React from "react";
+import Types from "prop-types"
 
-let Option = React.createClass({
-    displayName: "SuperSelect.Option",
+class Option extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+    }
 
-    getDefaultProps: function () {
-        "use strict";
-
-        return {
-            pseudoHover: false,
-            checked: false,
-            onChange: null,
-            labelKey: "name",
-            multiple: false,
-            option: {}
-        };
-    },
-
-    handleChange: function () {
-        "use strict";
-
+    handleChange () {
         this.props.onChange(this.props.option);
-    },
+    }
 
-    render: function () {
-        "use strict";
-
+    render() {
+        const type = this.props.multiple ? "checkbox" : "radio";
         let className = "super-select-options-list-item";
-        let type = this.props.multiple ? "checkbox" : "radio";
 
         if (this.props.pseudoHover) {
             className += " hover";
@@ -46,6 +33,17 @@ let Option = React.createClass({
             </li>
         );
     }
-});
+}
 
-module.exports = Option;
+Option.displayName = "Option";
+Option.defaultProps = {
+    pseudoHover: false,
+    checked: false,
+    onChange: null,
+    labelKey: "name",
+    multiple: false,
+    option: {}
+};
+Option.propTypes = {
+};
+export default Option;

@@ -1,9 +1,14 @@
-var Application = React.createClass({
-    displayName: "Application",
-    maxLabels: 2,
+// import React from "react";
+// import ReactDOM from "react-dom";
+// import SuperSelect from "./src/SuperSelect.js";
 
-    getInitialState: function () {
-        return {
+const MAX_LABELS = 2;
+
+class Application extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
             selecteds: [],
             selected: {},
             options: [{
@@ -20,9 +25,9 @@ var Application = React.createClass({
                 label: "Blackburry"
             }]
         };
-    },
+    }
 
-    render: function () {
+    render() {
         return (
             <div>
                 <div className="demo">
@@ -40,8 +45,8 @@ var Application = React.createClass({
                             clearAllLabel="Clear all"
                             selectAllLabel="Select all"
                             allSelectedLabel={ this.state.selecteds.length.toString().concat(" selected") }
-                            maxLabels={this.maxLabels}
-                            moreSelectedLabel={ (this.state.selecteds.length - this.maxLabels).toString().concat(" more") }
+                            maxLabels={this.MAX_LABELS}
+                            moreSelectedLabel={ (this.state.selecteds.length - this.MAX_LABELS).toString().concat(" more") }
                             onOpen={ function () {
                                 console.log("opened")
                             }.bind(this) }
@@ -102,7 +107,8 @@ var Application = React.createClass({
             </div>
         );
     }
-});
+};
+Application.displayName = "Application";
 
 ReactDOM.render(
     <Application />,

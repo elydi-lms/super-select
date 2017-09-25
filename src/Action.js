@@ -1,29 +1,18 @@
-const React = require("react");
+import Types from "prop-types";
+import React from "react";
 
-let Action = React.createClass({
-    displayName: "SuperSelect.Action",
+class Action extends React.Component {
+    constructor(props) {
+        super(props);
 
-    getDefaultProps: function () {
-        "use strict";
+        this.getContent = this.getContent.bind(this);
+    }
 
-        return {
-            handler: function () {
-                console.log("action clicked ;)");
-            },
-            label: "Action",
-            content: null
-        };
-    },
-
-    getContent: function () {
-        "use strict";
-
+    getContent() {
         return this.props.content || this.props.label;
-    },
+    }
 
-    render: function () {
-        "use strict";
-
+    render() {
         return (
             <li
                 className="super-select-action"
@@ -33,6 +22,19 @@ let Action = React.createClass({
             </li>
         );
     }
-});
+}
 
-module.exports = Action;
+Action.displayName = "SuperSelect.Action";
+Action.defaultProps = {
+    handler: function () {
+        console.log("action clicked ;)");
+    },
+    label: "Action",
+    content: null
+};
+Action.propTypes = {
+    handler: Types.func,
+    label: Types.string,
+    content: Types.any
+};
+export default Action;
