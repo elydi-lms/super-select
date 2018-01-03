@@ -1,6 +1,5 @@
-// import React from "react";
-// import ReactDOM from "react-dom";
-// import SuperSelect from "./src/SuperSelect.js";
+/* eslint-env node, browser */
+/* global React, SuperSelect, ReactDOM */
 
 const MAX_LABELS = 2;
 
@@ -22,10 +21,11 @@ class Application extends React.Component {
                 label: "Windows Phone"
             }, {
                 value: 4,
-                label: "Blackburry"
+                label: "Blackberry"
             }]
         };
     }
+
 
     render() {
         return (
@@ -45,8 +45,8 @@ class Application extends React.Component {
                             clearAllLabel="Clear all"
                             selectAllLabel="Select all"
                             allSelectedLabel={ this.state.selecteds.length.toString().concat(" selected") }
-                            maxLabels={this.MAX_LABELS}
-                            moreSelectedLabel={ (this.state.selecteds.length - this.MAX_LABELS).toString().concat(" more") }
+                            maxLabels={ MAX_LABELS }
+                            moreSelectedLabel={ (this.state.selecteds.length - MAX_LABELS).toString().concat(" more") }
                             onOpen={ function () {
                                 console.log("opened")
                             }.bind(this) }
@@ -107,8 +107,7 @@ class Application extends React.Component {
             </div>
         );
     }
-};
-Application.displayName = "Application";
+}
 
 ReactDOM.render(
     <Application />,

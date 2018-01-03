@@ -22,7 +22,8 @@
         "camelcase": "warn",
         "eqeqeq": "warn",
 
-        "react/display-name": "error"
+        "react/display-name": "error",
+        "react/jsx-curly-spacing": ["error", "always"]
     },
     "plugins": [
         "react"

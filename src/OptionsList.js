@@ -1,5 +1,6 @@
 import Types from "prop-types";
 import React from "react";
+import Option from "./Option";
 
 class OptionsList extends React.Component {
     constructor(props) {
@@ -38,7 +39,7 @@ class OptionsList extends React.Component {
             }
 
             return (
-                <Option { ...optionProps } key={ index }/>
+                <Option { ...optionProps } key={ index } />
             );
         });
     }

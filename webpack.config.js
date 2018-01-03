@@ -10,7 +10,6 @@ module.exports = {
         path: getPath("./dist/"),
         filename: "SuperSelect.js",
         library: "SuperSelect",
-        libraryTarget: "var",
         publicPath: "/dist/"
     },
     module: {

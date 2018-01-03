@@ -1,6 +1,8 @@
 import React from "react";
 import Types from "prop-types";
 
+import Action from "./Action";
+
 class Actions extends React.Component {
     render() {
         return (

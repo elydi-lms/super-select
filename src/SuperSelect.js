@@ -116,7 +116,6 @@ class SuperSelect extends React.Component {
                 maxLabels={ this.props.maxLabels }
                 noLabels={ this.props.noLabels }
                 tabIndex={ this.props.tabIndex }
-                handleFocus={ this.handleFocus }
                 allSelectedLabel={ this.props.allSelectedLabel }
                 moreSelectedLabel={ this.props.moreSelectedLabel }
             />
@@ -324,8 +323,8 @@ class SuperSelect extends React.Component {
     render() {
         return (
             <div
-                className={"super-select-container" + (this.state.open ? " open" : "")}
-                ref="container"
+                className={ "super-select-container" + (this.state.open ? " open" : "") }
+                ref={ node => this.container = node }
                 onKeyDown={ this.handleNavigationKeys }
                 tabIndex={ this.props.tabIndex }
             >
@@ -394,6 +393,8 @@ SuperSelect.propTypes = {
         )
     ]),
     valueKey: Types.string,
-    valueLink: Types.object
+    valueLink: Types.object,
+
+    tabIndex: Types.number
 };
 export default SuperSelect;
