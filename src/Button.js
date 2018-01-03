@@ -1,40 +1,19 @@
-const React = require("react");
+import Types from "prop-types";
+import React from "react";
 
-/**
- * @todo support max display items
- */
-let Button = React.createClass({
-    displayName: "SuperSelect.button",
+class Button extends React.Component {
+    constructor(props) {
+        super(props);
+        this.getClassName = this.getClassName.bind(this);
+        this.getLabel = this.getLabel.bind(this);
+    }
 
-    getDefaultProps: function () {
-        "use strict";
 
-        return {
-            label: "",
-            open: false,
-            value: null,
-            options: [],
-            allOptions: [],
-            valueKey: "id",
-            labelKey: "name",
-            multiple: true,
-            maxLabels: false,
-            noLabels: false,
-            contentLabelProvider: null,
-            allSelectedLabel: "todos",
-            moreSelectedLabel: null
-        };
-    },
-
-    getClassName: function () {
-        "use strict";
-
+    getClassName() {
         return "super-select-button" + (this.props.open ? " open" : "");
-    },
+    }
 
-    getLabel: function () {
-        "use strict";
-
+    getLabel() {
         let label = this.props.label;
         if (typeof this.props.contentLabelProvider === "function") {
             label = this.props.contentLabelProvider();
@@ -49,12 +28,9 @@ let Button = React.createClass({
                 { label }
             </span>
         );
-    },
+    }
 
-    render: function () {
-        "use strict";
-
-        let self = this;
+    render() {
         let className = this.getClassName();
         let text = [];
         let countValues = 0;
@@ -80,23 +56,23 @@ let Button = React.createClass({
                         </span>
                     );
                 } else {
-                    this.props.value.map(function (item, index) {
-                        if (self.props.maxLabels === false || countValues < self.props.maxLabels) {
+                    this.props.value.map((item, index) => {
+                        if (this.props.maxLabels === false || countValues < this.props.maxLabels) {
                             text.push(
                                 <span className="super-select-button-label-value" key={ index }>
-                                    { item[self.props.labelKey] }
+                                    { item[this.props.labelKey] }
                                 </span>
                             );
                             countValues++;
                         }
                     });
 
-                    if (self.props.maxLabels !== false && self.props.maxLabels < self.props.value.length) {
+                    if (this.props.maxLabels !== false && this.props.maxLabels < this.props.value.length) {
                         text.push(
                             <span className="super-select-button-label-value" key="-1">
-                                 { self.props.moreSelectedLabel
-                                     ? self.props.moreSelectedLabel
-                                     : "mais ".concat((self.props.value.length - self.props.maxLabels).toString())
+                                 { this.props.moreSelectedLabel
+                                     ? this.props.moreSelectedLabel
+                                     : "mais ".concat((this.props.value.length - this.props.maxLabels).toString())
                                  }
                             </span>
                         );
@@ -120,6 +96,11 @@ let Button = React.createClass({
             </label>
         );
     }
-});
+}
 
-module.exports = Button;
+Button.displayName = "SuperSelect.Button";
+Button.defaultProps = {
+};
+Button.propTypes = {
+};
+export default Button;

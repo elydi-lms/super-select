@@ -1,32 +1,23 @@
-const React = require("react");
-const Action = require("./Action");
+import React from "react";
+import Types from "prop-types";
 
-let Actions = React.createClass({
-    displayName: "SuperSelect.Actions",
+import Action from "./Action";
 
-    getDefaultProps: function () {
-        "use strict";
-
-        return {
-            actions: []
-        };
-    },
-
-    render: function () {
-        "use strict";
-
-        if (!this.props.actions.length) {
-            return <div></div>;
-        }
-
+class Actions extends React.Component {
+    render() {
         return (
             <ul className="super-select-actions">
-                { this.props.actions.map(function (action, index) {
-                    return <Action { ...action } key={ index }/>;
-                }) }
+                { this.props.actions.map((action, index) => <Action { ...action } key={ index }/>) }
             </ul>
         );
     }
-});
+}
 
-module.exports = Actions;
+Actions.displayName = "SuperSelect.Actions";
+Actions.defaultProps = {
+    actions: []
+};
+Actions.propTypes = {
+    actions: Types.array
+};
+export default Actions;

@@ -1,35 +1,23 @@
-const React = require("react");
+import React from "react";
+import Types from "prop-types";
 
-let SearchBox = React.createClass({
-    displayName: "SuperSelect.SearchBox",
+class SearchBox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+    }
 
-    getDefaultProps: function () {
-        "use strict";
+    componentDidMount() {
+        this.q.focus();
+    }
 
-        return {
-            searchPlaceholder: "Digite para filtrar opção...",
-            searchArgument: "",
-            searchArgumentChange: null
-        };
-    },
-
-    componentDidMount: function () {
-        "use strict";
-
-        this.refs.q.focus();
-    },
-
-    handleKeyPress: function (e) {
-        "use strict";
-
+    handleKeyPress(e) {
         if (["ArrowUp", "ArrowDown"].indexOf(e.key) > -1) {
             e.preventDefault();
         }
-    },
+    }
 
-    render: function () {
-        "use strict";
-
+    render() {
         return (
             <div className="super-select-options-search-container">
                 <input
@@ -39,11 +27,22 @@ let SearchBox = React.createClass({
                     onChange={ this.props.searchArgumentChange }
                     onKeyDown={ this.handleKeyPress }
                     placeholder={ this.props.searchPlaceholder }
-                    ref="q"
+                    ref={ input => { this.q = input; }}
                 />
             </div>
         );
     }
-});
+}
 
-module.exports = SearchBox;
+SearchBox.displayName = "SearchBox";
+SearchBox.defaultProps = {
+    searchPlaceholder: "Digite para filtrar opção...",
+    searchArgument: "",
+    searchArgumentChange: null
+};
+SearchBox.propTypes = {
+    searchPlaceholder: Types.string.isRequired,
+    searchArgument: Types.string,
+    searchArgumentChange: Types.func
+};
+export default SearchBox;

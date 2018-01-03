@@ -1,27 +1,16 @@
-const React = require("react");
+import Types from "prop-types";
+import React from "react";
+import Option from "./Option";
 
-const Option = require("./Option");
+class OptionsList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.renderOptions = this.renderOptions.bind(this);
+    }
 
-let OptionsList = React.createClass({
-    displayName: "SuperSelect.OptionsList",
-
-    getDefaultProps: function () {
+    renderOptions() {
         "use strict";
 
-        return {
-            options: [],
-            isChecked: null,
-            handleChange: null,
-            currentHover: false,
-            multiple: false,
-            labelKey: "name"
-        };
-    },
-
-    renderOptions: function () {
-        "use strict";
-
-        let self = this;
         let options = this.props.options;
         if (!options.length) {
             return (
@@ -34,30 +23,28 @@ let OptionsList = React.createClass({
             );
         }
 
-        return options.map(function (item, index) {
+        return options.map((item, index) => {
             let optionProps = {
                 index: index,
-                pseudoHover: index === self.props.currentHover,
-                checked: self.props.isChecked(item),
+                pseudoHover: index === this.props.currentHover,
+                checked: this.props.isChecked(item),
                 option: item,
-                onChange: self.props.handleChange,
-                labelKey: self.props.labelKey,
-                multiple: self.props.multiple
+                onChange: this.props.handleChange,
+                labelKey: this.props.labelKey,
+                multiple: this.props.multiple
             };
 
-            if (self.props.optionRender) {
-                return self.props.optionRender(optionProps);
+            if (this.props.optionRender) {
+                return this.props.optionRender(optionProps);
             }
 
             return (
-                <Option { ...optionProps } key={ index }/>
+                <Option { ...optionProps } key={ index } />
             );
         });
-    },
+    }
 
-    render: function () {
-        "use strict";
-
+    render() {
         return (
             <div className="super-select-options-container">
                 <ul className="super-select-options-list">
@@ -66,6 +53,17 @@ let OptionsList = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = OptionsList;
+OptionsList.displayName = "OptionsList";
+OptionsList.defaultProps = {
+    options: [],
+    isChecked: null,
+    handleChange: null,
+    currentHover: false,
+    multiple: false,
+    labelKey: "name"
+};
+OptionsList.propTypes = {
+};
+export default OptionsList;
