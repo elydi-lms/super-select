@@ -822,8 +822,11 @@ var SuperSelect = function (_React$Component) {
                 handleChange: this.handleChange,
                 currentHover: this.state.pseudoHover,
                 labelKey: this.props.labelKey,
+                valueKey: this.props.valueKey,
                 actions: this.props.actions,
                 multiple: this.props.multiple,
+                allowCreate: this.props.allowCreate,
+                currentQuery: this.state.q,
                 key: "options-list"
             });
         }
@@ -841,6 +844,8 @@ var SuperSelect = function (_React$Component) {
     }, {
         key: "buildActions",
         value: function buildActions() {
+            var _this2 = this;
+
             var actions = [];
             if (this.props.options.length && this.props.multiple === true) {
                 actions.push({
@@ -853,6 +858,17 @@ var SuperSelect = function (_React$Component) {
                 });
             }
             actions = actions.concat(this.props.actions);
+
+            if (this.state.q.length > 0 && this.props.allowCreate) {
+                actions.push({
+                    label: "Create \"" + this.state.q + "\" option",
+                    handler: function handler() {
+                        _this2.props.onCreate(_this2.state.q, function () {
+                            return _this2.setState({ q: "" });
+                        });
+                    }
+                });
+            }
 
             return _react2.default.createElement(_Actions2.default, { actions: actions, key: "actions" });
         }
@@ -879,14 +895,14 @@ var SuperSelect = function (_React$Component) {
     }, {
         key: "render",
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             return _react2.default.createElement(
                 "div",
                 {
                     className: "super-select-container" + (this.state.open ? " open" : ""),
                     ref: function ref(node) {
-                        return _this2.container = node;
+                        return _this3.container = node;
                     },
                     onKeyDown: this.handleNavigationKeys,
                     tabIndex: this.props.tabIndex
@@ -915,6 +931,7 @@ SuperSelect.defaultProps = {
     searchPlaceholder: "Digite para filtrar opção...",
     selectAllLabel: "✓ Selecionar todos",
     valueKey: "value",
+    allowCreate: false,
     // html attrs
     tabIndex: 0
 };
@@ -947,6 +964,9 @@ SuperSelect.propTypes = {
     value: _propTypes2.default.oneOfType([_propTypes2.default.object, _propTypes2.default.arrayOf(_propTypes2.default.object)]),
     valueKey: _propTypes2.default.string,
     valueLink: _propTypes2.default.object,
+
+    allowCreate: _propTypes2.default.bool.isRequired,
+    onCreate: _propTypes2.default.func,
 
     tabIndex: _propTypes2.default.number
 };
@@ -2983,7 +3003,8 @@ OptionsList.defaultProps = {
     handleChange: null,
     currentHover: false,
     multiple: false,
-    labelKey: "name"
+    labelKey: "name",
+    allowCreate: false
 };
 OptionsList.propTypes = {};
 exports.default = OptionsList;

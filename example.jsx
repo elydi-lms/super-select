@@ -10,6 +10,20 @@ class Application extends React.Component {
         this.state = {
             selecteds: [],
             selected: {},
+            tagsMode: [],
+            tagsModeOptions: [{
+                value: 1,
+                label: "Android"
+            }, {
+                value: 2,
+                label: "iOS"
+            }, {
+                value: 3,
+                label: "Windows Phone"
+            }, {
+                value: 4,
+                label: "Blackberry"
+            }],
             options: [{
                 value: 1,
                 label: "Android"
@@ -102,6 +116,38 @@ class Application extends React.Component {
                     </div>
                     <div className="state">
                         State: { JSON.stringify(this.state.selected) }
+                    </div>
+                </div>
+
+                <div className="demo">
+                    <h3>Tags mode</h3>
+                    <div className="component">
+                        <SuperSelect
+                            label="The best OS"
+                            options={ this.state.tagsModeOptions }
+                            value={ this.state.tagsMode }
+                            multiple
+                            allowCreate
+                            onCreate={ function (query, next) {
+                                const newOption = {label: query, value: null};
+                                let options = this.state.tagsModeOptions.slice();
+                                options.push(newOption);
+
+                                let selecteds = this.state.tagsMode.slice();
+                                selecteds.push(newOption);
+
+                                this.setState({
+                                    tagsMode: selecteds,
+                                    tagsModeOptions: options
+                                }, next);
+                            }.bind(this) }
+                            onChange={ function (newSelected) {
+                                this.setState({tagsMode: newSelected});
+                            }.bind(this) }
+                        />
+                    </div>
+                    <div className="state">
+                        State: { JSON.stringify(this.state.tagsMode) }
                     </div>
                 </div>
             </div>

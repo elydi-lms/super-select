@@ -265,8 +265,11 @@ class SuperSelect extends React.Component {
                 handleChange={ this.handleChange }
                 currentHover={ this.state.pseudoHover }
                 labelKey={ this.props.labelKey }
+                valueKey={ this.props.valueKey }
                 actions={ this.props.actions }
                 multiple={ this.props.multiple }
+                allowCreate={ this.props.allowCreate }
+                currentQuery={ this.state.q }
                 key="options-list"
             />
         );
@@ -297,6 +300,15 @@ class SuperSelect extends React.Component {
             });
         }
         actions = actions.concat(this.props.actions);
+
+        if (this.state.q.length > 0 && this.props.allowCreate) {
+            actions.push({
+                label: `Create "${this.state.q}" option`,
+                handler: () => {
+                    this.props.onCreate(this.state.q, () => this.setState({q: ""}))
+                }
+            });
+        }
 
         return <Actions actions={ actions } key="actions" />;
     }
@@ -350,6 +362,7 @@ SuperSelect.defaultProps = {
     searchPlaceholder: "Digite para filtrar opção...",
     selectAllLabel: "✓ Selecionar todos",
     valueKey: "value",
+    allowCreate: false,
     // html attrs
     tabIndex: 0
 };
@@ -394,6 +407,9 @@ SuperSelect.propTypes = {
     ]),
     valueKey: Types.string,
     valueLink: Types.object,
+
+    allowCreate: Types.bool.isRequired,
+    onCreate: Types.func,
 
     tabIndex: Types.number
 };
