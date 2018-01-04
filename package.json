@@ -7,7 +7,7 @@
     "datalist"
   ],
   "description": "",
-  "main": "lib/SuperSelect.js",
+  "main": "dist/SuperSelect.js",
   "author": "Luís Henrique Faria <luish.faria@gmail.com>",
   "dependencies": {
     "fuse.js": "^3.1.0",
@@ -36,7 +36,7 @@
     "webpack-dev-server": "^2.8.2"
   },
   "scripts": {
-    "build": "./node_modules/.bin/webpack --progress --color",
+    "build": "env NODE_ENV=production ./node_modules/.bin/webpack --progress --color",
     "dev": "./node_modules/.bin/webpack-dev-server -d --content-base ./"
   },
   "version": "0.0.9"
