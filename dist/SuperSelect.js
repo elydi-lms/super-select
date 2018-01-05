@@ -668,7 +668,7 @@ var SuperSelect = function (_React$Component) {
                 maxLabels: this.props.maxLabels,
                 noLabels: this.props.noLabels,
                 tabIndex: this.props.tabIndex,
-                allSelectedLabel: this.props.allSelectedLabel,
+                allSelectedLabel: this.props.allItemsSelectedLabel,
                 moreSelectedLabel: this.props.moreSelectedLabel
             });
         }
@@ -861,7 +861,7 @@ var SuperSelect = function (_React$Component) {
 
             if (this.state.q.length > 0 && this.props.allowCreate) {
                 actions.push({
-                    label: "Create \"" + this.state.q + "\" option",
+                    label: this.props.getCreateText(this.state.q),
                     handler: function handler() {
                         _this2.props.onCreate(_this2.state.q, function () {
                             return _this2.setState({ q: "" });
@@ -932,6 +932,9 @@ SuperSelect.defaultProps = {
     selectAllLabel: "✓ Selecionar todos",
     valueKey: "value",
     allowCreate: false,
+    getCreateText: function getCreateText(value) {
+        return "Create \"" + value + "\" option";
+    },
     // html attrs
     tabIndex: 0
 };
@@ -967,6 +970,7 @@ SuperSelect.propTypes = {
 
     allowCreate: _propTypes2.default.bool.isRequired,
     onCreate: _propTypes2.default.func,
+    getCreateText: _propTypes2.default.func,
 
     tabIndex: _propTypes2.default.number
 };
