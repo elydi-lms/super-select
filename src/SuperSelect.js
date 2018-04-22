@@ -116,7 +116,7 @@ class SuperSelect extends React.Component {
                 maxLabels={ this.props.maxLabels }
                 noLabels={ this.props.noLabels }
                 tabIndex={ this.props.tabIndex }
-                allSelectedLabel={ this.props.allSelectedLabel }
+                allSelectedLabel={ this.props.allItemsSelectedLabel }
                 moreSelectedLabel={ this.props.moreSelectedLabel }
             />
         );
@@ -265,8 +265,11 @@ class SuperSelect extends React.Component {
                 handleChange={ this.handleChange }
                 currentHover={ this.state.pseudoHover }
                 labelKey={ this.props.labelKey }
+                valueKey={ this.props.valueKey }
                 actions={ this.props.actions }
                 multiple={ this.props.multiple }
+                allowCreate={ this.props.allowCreate }
+                currentQuery={ this.state.q }
                 key="options-list"
             />
         );
@@ -297,6 +300,15 @@ class SuperSelect extends React.Component {
             });
         }
         actions = actions.concat(this.props.actions);
+
+        if (this.state.q.length > 0 && this.props.allowCreate) {
+            actions.push({
+                label: this.props.getCreateText(this.state.q),
+                handler: () => {
+                    this.props.onCreate(this.state.q, () => this.setState({q: ""}))
+                }
+            });
+        }
 
         return <Actions actions={ actions } key="actions" />;
     }
@@ -350,6 +362,8 @@ SuperSelect.defaultProps = {
     searchPlaceholder: "Digite para filtrar opção...",
     selectAllLabel: "✓ Selecionar todos",
     valueKey: "value",
+    allowCreate: false,
+    getCreateText: (value) => `Create "${value}" option`,
     // html attrs
     tabIndex: 0
 };
@@ -394,6 +408,10 @@ SuperSelect.propTypes = {
     ]),
     valueKey: Types.string,
     valueLink: Types.object,
+
+    allowCreate: Types.bool.isRequired,
+    onCreate: Types.func,
+    getCreateText: Types.func,
 
     tabIndex: Types.number
 };

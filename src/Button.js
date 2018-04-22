@@ -46,7 +46,7 @@ class Button extends React.Component {
                 if (this.props.value.length === this.props.allOptions.length) {
                     text.push(
                         <span className="super-select-button-label-value" key="all">
-                            {this.props.allSelectedLabel}
+                            { this.props.allSelectedLabel }
                         </span>
                     );
                 } else if (this.props.noLabels === true) {

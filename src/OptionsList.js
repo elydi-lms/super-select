@@ -62,7 +62,8 @@ OptionsList.defaultProps = {
     handleChange: null,
     currentHover: false,
     multiple: false,
-    labelKey: "name"
+    labelKey: "name",
+    allowCreate: false
 };
 OptionsList.propTypes = {
 };

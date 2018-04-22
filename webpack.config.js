@@ -4,7 +4,7 @@ const getPath = function () {
     return path.join(__dirname, ...arguments);
 };
 
-module.exports = {
+const CONFIG = {
     entry: getPath("./index.js"),
     output: {
         path: getPath("./dist/"),
@@ -38,3 +38,12 @@ module.exports = {
         }]
     }
 };
+
+if (process.env.NODE_ENV === "production") {
+    CONFIG.output.libraryTarget = "commonjs2";
+    CONFIG.externals = {
+        react: 'commonjs react'
+    }
+}
+
+module.exports = CONFIG;
