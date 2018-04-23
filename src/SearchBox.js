@@ -1,18 +1,13 @@
-import React from "react";
+import React, { Component } from "react";
 import Types from "prop-types";
 
-class SearchBox extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-    }
-
+class SearchBox extends Component {
     componentDidMount() {
         this.q.focus();
     }
 
-    handleKeyPress(e) {
-        if (["ArrowUp", "ArrowDown"].indexOf(e.key) > -1) {
+    handleKeyPress = (e) => {
+        if (["ArrowUp", "ArrowDown"].includes(e.key)) {
             e.preventDefault();
         }
     }
@@ -27,16 +22,15 @@ class SearchBox extends React.Component {
                     onChange={ this.props.searchArgumentChange }
                     onKeyDown={ this.handleKeyPress }
                     placeholder={ this.props.searchPlaceholder }
-                    ref={ input => { this.q = input; }}
+                    ref={ input => { this.q = input; } }
                 />
             </div>
         );
     }
 }
 
-SearchBox.displayName = "SearchBox";
 SearchBox.defaultProps = {
-    searchPlaceholder: "Digite para filtrar opção...",
+    searchPlaceholder: "",
     searchArgument: "",
     searchArgumentChange: null
 };

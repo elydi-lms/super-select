@@ -3,26 +3,22 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "es6": true,
-        "node": true
+        "es6": true
     },
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
+            "classes": true,
             "jsx": true
         },
         "sourceType": "module",
         "ecmaVersion": 8
-    },
-    "globals": {
-        "require": true
     },
     "rules": {
         "no-underscore-dangle": "warn",
         "no-alert": "error",
         "camelcase": "warn",
         "eqeqeq": "warn",
-
-        "react/display-name": "error",
         "react/jsx-curly-spacing": ["error", "always"]
     },
     "plugins": [
