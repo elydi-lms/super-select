@@ -1,16 +1,10 @@
+import React, { Component } from "react";
 import Types from "prop-types";
-import React from "react";
+
 import Option from "./Option";
 
-class OptionsList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.renderOptions = this.renderOptions.bind(this);
-    }
-
-    renderOptions() {
-        "use strict";
-
+class OptionsList extends Component {
+    renderOptions = () => {
         let options = this.props.options;
         if (!options.length) {
             return (
@@ -18,7 +12,7 @@ class OptionsList extends React.Component {
                     className="super-select-options-list-item not-found"
                     key="not-found"
                 >
-                    Nada encontrado :/
+                    { this.props.noResultsLabel }
                 </li>
             );
         }
@@ -55,7 +49,6 @@ class OptionsList extends React.Component {
     }
 }
 
-OptionsList.displayName = "OptionsList";
 OptionsList.defaultProps = {
     options: [],
     isChecked: null,
@@ -66,5 +59,14 @@ OptionsList.defaultProps = {
     allowCreate: false
 };
 OptionsList.propTypes = {
+    options: Types.array,
+    isChecked: Types.func,
+    handleChange: Types.func,
+    currentHover: Types.oneOfType([Types.bool, Types.number]),
+    multiple: Types.bool,
+    labelKey: Types.string,
+    allowCreate: Types.bool,
+    optionRender: Types.func,
+    noResultsLabel: Types.string,
 };
 export default OptionsList;

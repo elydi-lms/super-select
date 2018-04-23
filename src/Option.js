@@ -1,13 +1,8 @@
-import React from "react";
-import Types from "prop-types"
+import React, { Component } from "react";
+import Types from "prop-types";
 
-class Option extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange () {
+class Option extends Component {
+    handleChange = () => {
         this.props.onChange(this.props.option);
     }
 
@@ -22,8 +17,7 @@ class Option extends React.Component {
         return (
             <li className={ className }>
                 <label>
-                    <input
-                        type={ type }
+                    <input type={ type }
                         checked={ this.props.checked }
                         onChange={ this.handleChange }
                         tabIndex="-1"
@@ -35,7 +29,6 @@ class Option extends React.Component {
     }
 }
 
-Option.displayName = "Option";
 Option.defaultProps = {
     pseudoHover: false,
     checked: false,
@@ -45,5 +38,12 @@ Option.defaultProps = {
     option: {}
 };
 Option.propTypes = {
+    option: Types.object,
+    onChange: Types.func,
+    checked: Types.bool,
+    handleChange: Types.func,
+    labelKey: Types.string,
+    pseudoHover: Types.bool,
+    multiple: Types.bool
 };
 export default Option;

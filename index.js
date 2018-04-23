@@ -1,1 +1,3 @@
-module.exports = require("./src/SuperSelect.js");
+import SuperSelect from "./src/SuperSelect";
+
+export default SuperSelect;

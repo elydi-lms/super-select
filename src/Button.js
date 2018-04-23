@@ -1,28 +1,20 @@
+import React, { Component } from "react";
 import Types from "prop-types";
-import React from "react";
 
-class Button extends React.Component {
-    constructor(props) {
-        super(props);
-        this.getClassName = this.getClassName.bind(this);
-        this.getLabel = this.getLabel.bind(this);
+class Button extends Component {
+    getClassName = () => {
+        return `super-select-button ${this.props.open ? "open" : ""}`;
     }
 
-
-    getClassName() {
-        return "super-select-button" + (this.props.open ? " open" : "");
-    }
-
-    getLabel() {
+    getLabel = () => {
         let label = this.props.label;
         if (typeof this.props.contentLabelProvider === "function") {
             label = this.props.contentLabelProvider();
         }
 
         return (
-            <span
+            <span id="label"
                 className="super-select-button-label"
-                id="label"
                 key="label-text"
             >
                 { label }
@@ -30,7 +22,7 @@ class Button extends React.Component {
         );
     }
 
-    render() {
+    render = () => {
         let className = this.getClassName();
         let text = [];
         let countValues = 0;
@@ -98,9 +90,18 @@ class Button extends React.Component {
     }
 }
 
-Button.displayName = "SuperSelect.Button";
-Button.defaultProps = {
-};
 Button.propTypes = {
+    label: Types.string,
+    contentLabelProvider: Types.func,
+    open: Types.bool,
+    noLabels: Types.bool,
+    multiple: Types.bool,
+    allOptions: Types.arrayOf(Types.object),
+    allSelectedLabel: Types.string,
+    maxLabels: Types.oneOfType([Types.number, Types.bool]),
+    labelKey: Types.string,
+    moreSelectedLabel: Types.string,
+    value: Types.oneOfType([Types.array, Types.object]),
+    toggle: Types.func
 };
 export default Button;

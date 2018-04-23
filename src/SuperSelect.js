@@ -1,51 +1,36 @@
+import React, { Component } from "react";
 import Types from "prop-types";
-import React from "react";
 import Fuse from "fuse.js";
+
 import Button from "./Button";
 import OptionsList from "./OptionsList";
 import SearchBox from "./SearchBox";
 import Actions from "./Actions";
 
-class SuperSelect extends React.Component {
+class SuperSelect extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            // Tells if the component is open or not
             open: false,
+            // Store the index of the current highlighted option when browsing via keyboard
             pseudoHover: null,
+            // Store the query
             q: ""
         };
-
-        this.addSuperSelectToEvent = this.addSuperSelectToEvent.bind(this);
-        this.closeOnClickOutside = this.closeOnClickOutside.bind(this);
-        this.getAllOptions = this.getAllOptions.bind(this);
-        this.getOptions = this.getOptions.bind(this);
-        this.getValue = this.getValue.bind(this);
-        this.buildbutton = this.buildbutton.bind(this);
-        this.toggle = this.toggle.bind(this);
-        this.isChecked = this.isChecked.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.dispatchChanges = this.dispatchChanges.bind(this);
-        this.clean = this.clean.bind(this);
-        this.selectAll = this.selectAll.bind(this);
-        this.handleChangeQ = this.handleChangeQ.bind(this);
-        this.handleNavigationKeys = this.handleNavigationKeys.bind(this);
-        this.buildOptions = this.buildOptions.bind(this);
-        this.buildSearchBox = this.buildSearchBox.bind(this);
-        this.buildActions = this.buildActions.bind(this);
-        this.buildContent = this.buildContent.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.container.addEventListener("click", this.addSuperSelectToEvent);
         document.addEventListener("click", this.closeOnClickOutside);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         this.container.removeEventListener("click", this.addSuperSelectToEvent);
         document.removeEventListener("click", this.closeOnClickOutside);
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    componentWillUpdate = (nextProps, nextState) => {
         if (nextState.open && typeof this.props.onOpen === "function") {
             this.props.onOpen();
         } else if(!nextState.open && typeof this.props.onClose === "function") {
@@ -53,12 +38,12 @@ class SuperSelect extends React.Component {
         }
     }
 
-    addSuperSelectToEvent(e) {
+    addSuperSelectToEvent = e => {
         // @todo i'm not happy with this
         e.superSelect = this;
     }
 
-    closeOnClickOutside(e) {
+    closeOnClickOutside = e => {
         let eventSuperSelect = e.superSelect || false;
         if (!eventSuperSelect || eventSuperSelect !== this) {
             this.setState({
@@ -67,11 +52,11 @@ class SuperSelect extends React.Component {
         }
     }
 
-    getAllOptions() {
+    getAllOptions = () => {
         return this.props.options || [];
     }
 
-    getOptions() {
+    getOptions = () => {
         const options = this.props.options || [];
         const q = this.state.q;
         const fuse = new Fuse(options, {
@@ -85,7 +70,7 @@ class SuperSelect extends React.Component {
         return fuse.search(q);
     }
 
-    getValue() {
+    getValue = () => {
         let value;
         if (this.props.valueLink) {
             value = this.props.valueLink.value;
@@ -100,7 +85,7 @@ class SuperSelect extends React.Component {
         return value;
     }
 
-    buildbutton() {
+    buildbutton = () => {
         return (
             <Button
                 label={ this.props.label }
@@ -116,13 +101,13 @@ class SuperSelect extends React.Component {
                 maxLabels={ this.props.maxLabels }
                 noLabels={ this.props.noLabels }
                 tabIndex={ this.props.tabIndex }
-                allSelectedLabel={ this.props.allItemsSelectedLabel }
+                allSelectedLabel={ this.props.allSelectedLabel }
                 moreSelectedLabel={ this.props.moreSelectedLabel }
             />
         );
     }
 
-    toggle(forceState) {
+    toggle = (forceState) => {
         const newState = typeof forceState === "boolean" ? forceState : !this.state.open;
         this.setState({
             open: newState,
@@ -131,7 +116,7 @@ class SuperSelect extends React.Component {
         });
     }
 
-    isChecked(item, returnIndex) {
+    isChecked = (item, returnIndex) => {
         const value = this.getValue();
         let index = false;
         let found = false;
@@ -155,7 +140,7 @@ class SuperSelect extends React.Component {
         return item[valueKey] == value[valueKey];
     }
 
-    handleChange(item) {
+    handleChange = (item) => {
         let value = this.getValue();
         let current;
 
@@ -174,7 +159,7 @@ class SuperSelect extends React.Component {
         this.dispatchChanges(value);
     }
 
-    dispatchChanges(newValue) {
+    dispatchChanges = (newValue) => {
         if (this.props.valueLink) {
             this.props.valueLink.requestChange(newValue);
         } else if (typeof this.props.onChange === "function") {
@@ -189,26 +174,24 @@ class SuperSelect extends React.Component {
         }
     }
 
-    clean() {
+    clean = () => {
         this.dispatchChanges(
             this.props.multiple ? [] : null
         );
     }
 
-    selectAll() {
+    selectAll = () => {
         this.dispatchChanges(this.getOptions());
     }
 
-    handleChangeQ(event) {
+    handleChangeQ = event => {
         this.setState({
             q: event.target.value,
             pseudoHover: null
         });
     }
 
-    handleNavigationKeys(e) {
-        "use strict";
-
+    handleNavigationKeys = e => {
         const isEnter = e.key === "Enter";
         const container = this.container;
         let q = this.state.q;
@@ -238,7 +221,7 @@ class SuperSelect extends React.Component {
                 break;
         }
 
-        if (["Escape", "Tab"].indexOf(e.key) > -1) {
+        if (["Escape", "Tab"].includes(e.key)) {
             open = false;
             mustRetainFocus = true;
             q = "";
@@ -255,7 +238,7 @@ class SuperSelect extends React.Component {
         });
     }
 
-    buildOptions() {
+    buildOptions = () => {
         return (
             <OptionsList
                 options={ this.getOptions() }
@@ -270,12 +253,13 @@ class SuperSelect extends React.Component {
                 multiple={ this.props.multiple }
                 allowCreate={ this.props.allowCreate }
                 currentQuery={ this.state.q }
+                noResultsLabel={ this.props.noResultsLabel }
                 key="options-list"
             />
         );
     }
 
-    buildSearchBox() {
+    buildSearchBox = () => {
         return (
             <SearchBox
                 searchArgument={ this.state.q }
@@ -287,7 +271,7 @@ class SuperSelect extends React.Component {
         );
     }
 
-    buildActions() {
+    buildActions = () => {
         let actions = [];
         if (this.props.options.length && this.props.multiple === true) {
             actions.push({
@@ -313,7 +297,7 @@ class SuperSelect extends React.Component {
         return <Actions actions={ actions } key="actions" />;
     }
 
-    buildContent() {
+    buildContent = () => {
         let content = [];
 
         if (this.state.open) {
@@ -332,7 +316,7 @@ class SuperSelect extends React.Component {
         }
     }
 
-    render() {
+    render = () => {
         return (
             <div
                 className={ "super-select-container" + (this.state.open ? " open" : "") }
@@ -347,11 +331,10 @@ class SuperSelect extends React.Component {
     }
 }
 
-SuperSelect.displayName = "SuperSelect";
 SuperSelect.defaultProps = {
     actions: [],
-    allItemsSelectedLabel: "todos",
-    clearAllLabel: "✘ Limpar seleção",
+    allSelectedLabel: "All",
+    clearAllLabel: "✘ Clean Selection",
     labelKey: "label",
     maxLabels: false,
     multiple: true,
@@ -359,13 +342,14 @@ SuperSelect.defaultProps = {
     options: [],
     searchBox: true,
     searchKeys: ["label"],
-    searchPlaceholder: "Digite para filtrar opção...",
-    selectAllLabel: "✓ Selecionar todos",
+    searchPlaceholder: "Type to filter options...",
+    selectAllLabel: "✓ Select all",
     valueKey: "value",
     allowCreate: false,
     getCreateText: (value) => `Create "${value}" option`,
     // html attrs
-    tabIndex: 0
+    tabIndex: 0,
+    noResultsLabel: "Nothing found :/",
 };
 SuperSelect.propTypes = {
     actions: Types.arrayOf(
@@ -376,6 +360,7 @@ SuperSelect.propTypes = {
         })
     ),
     allSelectedLabel: Types.string,
+    allItemsSelectedLabel: Types.string,
     clearAllLabel: Types.string,
     content: Types.node,
     contentLabelProvider: Types.func,
@@ -413,6 +398,7 @@ SuperSelect.propTypes = {
     onCreate: Types.func,
     getCreateText: Types.func,
 
-    tabIndex: Types.number
+    tabIndex: Types.number,
+    noResultsLabel: Types.string,
 };
 export default SuperSelect;
