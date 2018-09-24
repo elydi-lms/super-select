@@ -401,4 +401,5 @@ SuperSelect.propTypes = {
     tabIndex: Types.number,
     noResultsLabel: Types.string,
 };
+
 export default SuperSelect;
