@@ -1,5 +1,4 @@
 const path = require("path");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: "./index.js",
@@ -7,7 +6,8 @@ module.exports = {
         path: path.resolve(__dirname, "./dist"),
         filename: "SuperSelect.js",
         library: "SuperSelect",
-        publicPath: "/dist/"
+        publicPath: "/dist/",
+        libraryTarget: "umd"
     },
     module: {
         rules: [{
@@ -16,11 +16,10 @@ module.exports = {
             use: ['babel-loader']
         }, {
             test: /\.scss$/,
-            use: ExtractTextPlugin.extract({
-                fallback: "style-loader",
-                use: ["css-loader", "sass-loader"]
-            })
+            use: [
+                "style-loader", "css-loader", "sass-loader",
+            ]
         }],
-    }
+    },
 };
 

@@ -7,6 +7,8 @@ import OptionsList from "./OptionsList";
 import SearchBox from "./SearchBox";
 import Actions from "./Actions";
 
+require("./SuperSelect.scss");
+
 class SuperSelect extends Component {
     constructor(props) {
         super(props);
