@@ -32,10 +32,10 @@ class SuperSelect extends Component {
         document.removeEventListener("click", this.closeOnClickOutside);
     }
 
-    componentWillUpdate = (nextProps, nextState) => {
-        if (nextState.open && typeof this.props.onOpen === "function") {
+    componentDidUpdate = () => {
+        if (this.state.open && typeof this.props.onOpen === "function") {
             this.props.onOpen();
-        } else if(!nextState.open && typeof this.props.onClose === "function") {
+        } else if (!this.state.open && typeof this.props.onClose === "function") {
             this.props.onClose();
         }
     }
@@ -84,7 +84,21 @@ class SuperSelect extends Component {
             value = this.props.multiple ? [] : null;
         }
 
+        // support
+        if (typeof value !== "object" && this.props.selectLike) {
+            value = { [this.props.valueKey]: value };
+        }
+
         return value;
+    }
+
+    getFullValue = () => {
+        const value = this.getValue();
+        if (!value) return value;
+
+        if (this.props.labelKey in value) return value;
+
+        return this.props.options.find(option => option[this.props.valueKey] == value[this.props.valueKey]);
     }
 
     buildbutton = () => {
@@ -93,7 +107,7 @@ class SuperSelect extends Component {
                 label={ this.props.label }
                 contentLabelProvider={ this.props.contentLabelProvider }
                 open={ this.state.open }
-                value={ this.getValue() }
+                value={ this.getFullValue() }
                 options={ this.getOptions() }
                 allOptions={ this.getAllOptions() }
                 valueKey={ this.props.valueKey }
@@ -156,6 +170,12 @@ class SuperSelect extends Component {
             }
         } else {
             value = item;
+        }
+
+        if (this.props.selectLike && value) {
+            value = Array.isArray(value)
+                ? value.map(v => v[this.props.valueKey])
+                : value[this.props.valueKey];
         }
 
         this.dispatchChanges(value);
@@ -352,6 +372,7 @@ SuperSelect.defaultProps = {
     // html attrs
     tabIndex: 0,
     noResultsLabel: "Nothing found :/",
+    selectLike: false,
 };
 SuperSelect.propTypes = {
     actions: Types.arrayOf(
@@ -388,6 +409,8 @@ SuperSelect.propTypes = {
     searchPlaceholder: Types.string,
     selectAllLabel: Types.string,
     value: Types.oneOfType([
+        Types.number,
+        Types.string,
         Types.object,
         Types.arrayOf(
             Types.object
@@ -402,6 +425,10 @@ SuperSelect.propTypes = {
 
     tabIndex: Types.number,
     noResultsLabel: Types.string,
+
+    selectLike: Types.bool,
 };
+
+SuperSelect.displayName = "SuperSelect";
 
 export default SuperSelect;

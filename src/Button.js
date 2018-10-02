@@ -100,6 +100,7 @@ Button.propTypes = {
     allSelectedLabel: Types.string,
     maxLabels: Types.oneOfType([Types.number, Types.bool]),
     labelKey: Types.string,
+    valueKey: Types.string,
     moreSelectedLabel: Types.string,
     value: Types.oneOfType([Types.array, Types.object]),
     toggle: Types.func

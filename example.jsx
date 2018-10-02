@@ -11,6 +11,7 @@ class Application extends React.Component {
             selecteds: [],
             selected: {},
             tagsMode: [],
+            selectMode: null,
             tagsModeOptions: [{
                 value: 1,
                 label: "Android"
@@ -148,6 +149,27 @@ class Application extends React.Component {
                     </div>
                     <div className="state">
                         State: { JSON.stringify(this.state.tagsMode) }
+                    </div>
+                </div>
+
+                <div className="demo">
+                    <h3>Select mode</h3>
+                    <p>This mode will use strings and numbers as values.</p>
+
+                    <div className="component">
+                        <SuperSelect
+                            label="The best OS"
+                            options={ this.state.options }
+                            value={ this.state.selectMode }
+                            multiple={ false }
+                            selectLike
+                            onChange={ function (newSelected) {
+                                this.setState({selectMode: newSelected});
+                            }.bind(this) }
+                        />
+                    </div>
+                    <div className="state">
+                        State: { JSON.stringify(this.state.selectMode) }
                     </div>
                 </div>
             </div>
